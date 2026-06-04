@@ -22,7 +22,7 @@ struct NowPlayingSong: Equatable, Identifiable {
 	var albumArt: NSImage?
 	var position: Double?
 	var duration: Double?  // Duration in seconds
-	
+
 	init() {
 		appName = ""
 		state = .stopped
@@ -60,15 +60,26 @@ struct NowPlayingSong: Equatable, Identifiable {
 struct MusicApp: CaseIterable, Equatable {
 	var name: String
 	var sbApp: any SBMusicApplicationProtocol
-	
-	static var spotifySBApp = SBApplication(bundleIdentifier: "com.spotify.client")! as SpotifyApplication
-	static var musicSBApp = SBApplication(bundleIdentifier: "com.apple.Music")! as MusicApplication
-	
-	static var spotify = MusicApp(name: "Spotify", sbApp: spotifySBApp)
-	static var music = MusicApp(name: "Music", sbApp: musicSBApp)
-	
+	var notificationName: Notification.Name
+
+	static private var spotifySBApp =
+		SBApplication(bundleIdentifier: "com.spotify.client")! as SpotifyApplication
+	static private var musicSBApp =
+		SBApplication(bundleIdentifier: "com.apple.Music")! as MusicApplication
+
+	static var spotify = MusicApp(
+		name: "Spotify",
+		sbApp: spotifySBApp,
+		notificationName: Notification.Name("com.spotify.client.PlaybackStateChanged")
+	)
+	static var music = MusicApp(
+		name: "Music",
+		sbApp: musicSBApp,
+		notificationName: Notification.Name("com.apple.Music.playerInfo")
+	)
+
 	static var allCases: [Self] = [spotify, music]
-	
+
 	static func == (lhs: MusicApp, rhs: MusicApp) -> Bool {
 		lhs.name == rhs.name
 	}
@@ -81,7 +92,7 @@ final class NowPlayingProvider {
 
 	/// Returns the current playing song from any supported music application.
 	static func fetchNowPlaying(_ song: inout NowPlayingSong?) {
-		if (song == nil) { song = NowPlayingSong() }
+		if song == nil { song = NowPlayingSong() }
 		for app in MusicApp.allCases {
 			fetchNowPlaying(from: app, song: &song!)
 		}
@@ -127,32 +138,9 @@ final class NowPlayingProvider {
 		}
 	}
 
-	/// Executes the provided AppleScript and returns the trimmed result.
-	@discardableResult
-	static func runAppleScript(_ script: String) -> String? {
-		guard let appleScript = NSAppleScript(source: script) else {
-			return nil
-		}
-		var error: NSDictionary?
-		let outputDescriptor = appleScript.executeAndReturnError(&error)
-		if let error = error {
-			print("AppleScript Error: \(error)")
-			return nil
-		}
-		return outputDescriptor.stringValue?.trimmingCharacters(
-			in: .whitespacesAndNewlines
-		)
-	}
-
 	/// Returns the first running music application.
 	static func activeMusicApp() -> MusicApp? {
 		MusicApp.allCases.first { isAppRunning($0) }
-	}
-
-	/// Executes a playback command for the active music application.
-	static func executeCommand(_ command: (MusicApp) -> String) {
-		guard let activeApp = activeMusicApp() else { return }
-		_ = runAppleScript(command(activeApp))
 	}
 }
 
@@ -164,13 +152,23 @@ final class NowPlayingManager: ObservableObject {
 
 	@Published private(set) var nowPlaying: NowPlayingSong?
 	private var cancellable: AnyCancellable?
+	private var timer: AnyCancellable?
 
 	private init() {
-		cancellable = Timer.publish(every: 0.3, on: .main, in: .common)
+		self.updateNowPlaying()
+		cancellable = Publishers.Merge(
+			DistributedNotificationCenter.default().publisher(for: MusicApp.spotify.notificationName),
+			DistributedNotificationCenter.default().publisher(for: MusicApp.music.notificationName)
+		).sink { _ in
+			self.updateNowPlaying()
+		}
+		timer = Timer.publish(every: 1, on: .main, in: .common)
 			.autoconnect()
-			.sink { [weak self] _ in
-				self?.updateNowPlaying()
+			.sink { _ in
+			if self.nowPlaying?.state == .playing {
+				self.nowPlaying?.position! += 1
 			}
+		}
 	}
 
 	/// Updates the now playing song asynchronously.
