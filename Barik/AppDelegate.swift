@@ -5,6 +5,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var menuBarPanel: NSPanel?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.accessory)
         if let error = ConfigManager.shared.initError {
             showFatalConfigError(message: error)
             return
@@ -66,7 +67,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         newPanel.level = NSWindow.Level(rawValue: level)
         newPanel.backgroundColor = .clear
         newPanel.hasShadow = false
-        newPanel.collectionBehavior = [.canJoinAllSpaces]
+        newPanel.collectionBehavior = [.canJoinAllSpaces, .stationary]
         newPanel.contentView = NSHostingView(rootView: hostingRootView)
         newPanel.orderFront(nil)
         panel = newPanel

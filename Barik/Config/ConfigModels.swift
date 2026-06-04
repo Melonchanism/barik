@@ -3,6 +3,7 @@ import SwiftUI
 
 struct RootToml: Decodable {
     var theme: String?
+    var dockIcon: Bool?
     var yabai: YabaiConfig?
     var aerospace: AerospaceConfig?
     var experimental: ExperimentalConfig?
@@ -10,6 +11,7 @@ struct RootToml: Decodable {
 
     init() {
         self.theme = nil
+        self.dockIcon = nil
         self.yabai = nil
         self.aerospace = nil
         self.widgets = WidgetsSection(displayed: [], others: [:])
@@ -25,6 +27,10 @@ struct Config {
 
     var theme: String {
         rootToml.theme ?? "light"
+    }
+    
+    var dockIcon: Bool {
+        rootToml.dockIcon ?? true
     }
     
     var yabai: YabaiConfig {

@@ -7,6 +7,10 @@ struct BarikApp: App {
     var body: some Scene {
         Settings {
             EmptyView()
+                .onChange(of: ConfigManager.shared.config.dockIcon) { oldValue, value in
+                    if value == true { NSApp.setActivationPolicy(.regular) }
+                    else { NSApp.setActivationPolicy(.accessory) }
+                }
         }
     }
 }

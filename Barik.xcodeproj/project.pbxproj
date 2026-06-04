@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */; };
 		F66C98C52D60E35600C3C53C /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = F66C98C42D60E35600C3C53C /* TOMLDecoder */; };
 		F6B514042D6C5F3400DFEB43 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = F6B514032D6C5F3400DFEB43 /* MarkdownUI */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F66C98C52D60E35600C3C53C /* TOMLDecoder in Frameworks */,
+				03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */,
 				F6B514042D6C5F3400DFEB43 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,7 +57,10 @@
 				C10E2F8B2D41235900AC957C /* Products */,
 				C1BB4B332D526B5C00A1F46E /* Barik */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 1;
 		};
 		C10E2F8B2D41235900AC957C /* Products */ = {
 			isa = PBXGroup;
@@ -87,6 +92,7 @@
 			packageProductDependencies = (
 				F66C98C42D60E35600C3C53C /* TOMLDecoder */,
 				F6B514032D6C5F3400DFEB43 /* MarkdownUI */,
+				03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */,
 			);
 			productName = Barik;
 			productReference = C10E2F8A2D41235900AC957C /* Barik.app */;
@@ -137,6 +143,7 @@
 			packageReferences = (
 				F66C98C32D60E35600C3C53C /* XCRemoteSwiftPackageReference "TOMLDecoder" */,
 				F6B514022D6C5F3400DFEB43 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C10E2F8B2D41235900AC957C /* Products */;
@@ -298,7 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MP26D4WTMR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -332,7 +339,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MP26D4WTMR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -381,6 +388,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Lakr233/SkyLightWindow";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		F66C98C32D60E35600C3C53C /* XCRemoteSwiftPackageReference "TOMLDecoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dduan/TOMLDecoder";
@@ -400,6 +415,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */;
+			productName = SkyLightWindow;
+		};
 		F66C98C42D60E35600C3C53C /* TOMLDecoder */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F66C98C32D60E35600C3C53C /* XCRemoteSwiftPackageReference "TOMLDecoder" */;
