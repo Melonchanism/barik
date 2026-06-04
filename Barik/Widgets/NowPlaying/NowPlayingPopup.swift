@@ -55,13 +55,10 @@ private struct NowPlayingVerticalPopup: View {
 			let position = song.position
 		{
 			VStack(spacing: 15) {
-				RotateAnimatedCachedImage(
-					url: song.albumArtURL,
-					targetSize: CGSize(width: 200, height: 200)
-				) { image in
-					image.clipShape(
-						RoundedRectangle(cornerRadius: 10, style: .continuous)
-					)
+				RotateAnimatedImage(image: song.albumArt) {
+					$0
+						.resizable()
+						.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 				}
 				.frame(width: 200, height: 200)
 				.scaleEffect(song.state == .paused ? 0.9 : 1)
@@ -114,7 +111,7 @@ private struct NowPlayingVerticalPopup: View {
 			.padding(.horizontal, 25)
 			.padding(.vertical, 30)
 			.frame(width: 300)
-			.animation(.easeInOut, value: song.albumArtURL)
+			.animation(.easeInOut, value: song.albumArt)
 		}
 	}
 }
@@ -130,13 +127,10 @@ struct NowPlayingHorizontalPopup: View {
 		{
 			VStack(spacing: 15) {
 				HStack(spacing: 15) {
-					RotateAnimatedCachedImage(
-						url: song.albumArtURL,
-						targetSize: CGSize(width: 200, height: 200)
-					) { image in
-						image.clipShape(
-							RoundedRectangle(cornerRadius: 10, style: .continuous)
-						)
+					RotateAnimatedImage(image: song.albumArt) {
+						$0
+							.resizable()
+							.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 					}
 					.frame(width: 60, height: 60)
 					.scaleEffect(song.state == .paused ? 0.9 : 1)
@@ -193,7 +187,7 @@ struct NowPlayingHorizontalPopup: View {
 			.padding(.horizontal, 25)
 			.padding(.vertical, 20)
 			.frame(width: 300, height: 180)
-			.animation(.easeInOut, value: song.albumArtURL)
+			.animation(.easeInOut, value: song.albumArt)
 		}
 	}
 }

@@ -36,9 +36,7 @@ final class ImageLoader: ObservableObject {
 	private var cacheKey: NSString? {
 		guard let url = url else { return nil }
 		if let targetSize = targetSize {
-			return
-				"\(url.absoluteString)-\(Int(targetSize.width))x\(Int(targetSize.height))"
-				as NSString
+			return "\(url.absoluteString)-\(Int(targetSize.width))x\(Int(targetSize.height))" as NSString
 		} else {
 			return url.absoluteString as NSString
 		}
@@ -123,9 +121,7 @@ struct RotateAnimatedCachedImage<RotatingContent: View>: View {
 	) {
 		self.url = url
 		self.targetSize = targetSize
-		_loader = StateObject(
-			wrappedValue: ImageLoader(url: url, targetSize: targetSize)
-		)
+		_loader = StateObject(wrappedValue: ImageLoader(url: url, targetSize: targetSize))
 		self.rotatingModifier = rotatingModifier
 	}
 
@@ -166,6 +162,60 @@ struct RotateAnimatedCachedImage<RotatingContent: View>: View {
 	}
 }
 
+struct RotateAnimatedImage<RotatingContent: View>: View {
+	let image: NSImage?
+
+	@State private var displayedImage: NSImage?
+	@State private var rotation: Double = 1
+	@State private var transitioning: Bool = false
+	let rotatingModifier: (Image) -> RotatingContent
+
+	/// Initializes the view with a URL, optional target size, and a custom rotating modifier.
+	init(image: NSImage?, @ViewBuilder rotatingModifier: @escaping (Image) -> RotatingContent) {
+		self.image = image
+		self.rotatingModifier = rotatingModifier
+	}
+
+	/// Convenience initializer when no custom modifier is needed.
+	init(image: NSImage?) where RotatingContent == Image {
+		self.init(image: image) { $0 }
+	}
+
+	var body: some View {
+		Group {
+			if let image = displayedImage {
+				rotatingModifier(Image(nsImage: image).resizable())
+					.blur(radius: abs(1 - rotation) * 5)
+					.scaleEffect(x: rotation)
+			} else {
+				Color.clear
+			}
+		}
+		.onAppear {
+			displayedImage = image
+		}
+		.onChange(of: image) {
+			guard let newImage = image else { return }
+			// If image is loading for the first time.
+			if transitioning { return }
+			if displayedImage == nil {
+				displayedImage = newImage
+			} else if displayedImage != newImage {
+				// Animate the transition.
+				transitioning = true
+				withAnimation(.easeInOut(duration: 0.2)) { rotation = 0 }
+				withAnimation(.easeOut(duration: 0.3).delay(0.2)) { rotation = 1 }
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+					displayedImage = newImage
+				}
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+					transitioning = false
+				}
+			}
+		}
+	}
+}
+
 // MARK: - Fade Animated Cached Image View
 
 /// A view that displays a cached image with a fade transition when the image changes.
@@ -187,9 +237,7 @@ struct FadeAnimatedCachedImage<Content: View>: View {
 	) {
 		self.url = url
 		self.targetSize = targetSize
-		_loader = StateObject(
-			wrappedValue: ImageLoader(url: url, targetSize: targetSize)
-		)
+		_loader = StateObject(wrappedValue: ImageLoader(url: url, targetSize: targetSize))
 		self.content = content
 	}
 
@@ -254,9 +302,7 @@ struct CachedImage<Content: View>: View {
 	) {
 		self.url = url
 		self.targetSize = targetSize
-		_loader = StateObject(
-			wrappedValue: ImageLoader(url: url, targetSize: targetSize)
-		)
+		_loader = StateObject(wrappedValue: ImageLoader(url: url, targetSize: targetSize))
 		self.content = content
 	}
 

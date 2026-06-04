@@ -130,15 +130,12 @@ struct AlbumArtView: View {
 
 	var body: some View {
 		ZStack {
-			FadeAnimatedCachedImage(
-				url: song.albumArtURL,
-				targetSize: CGSize(width: 20, height: 20)
-			)
-			.frame(width: 20, height: 20)
-			.frame(width: 20, height: 20)
-			.clipShape(RoundedRectangle(cornerRadius: 4))
-			.scaleEffect(song.state == .paused ? 0.9 : 1)
-			.brightness(song.state == .paused ? -0.3 : 0)
+			Image(nsImage: song.albumArt ?? NSImage())
+				.resizable()
+				.frame(width: 20, height: 20)
+				.clipShape(RoundedRectangle(cornerRadius: 4))
+				.scaleEffect(song.state == .paused ? 0.9 : 1)
+				.brightness(song.state == .paused ? -0.3 : 0)
 
 			if song.state == .paused {
 				Image(systemName: "pause.fill")

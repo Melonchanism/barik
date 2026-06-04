@@ -1,6 +1,7 @@
 import AppKit
 import Combine
 import Foundation
+import ScriptingBridge
 
 // MARK: - Playback State
 
@@ -14,120 +15,62 @@ enum PlaybackState: String {
 /// A model representing the currently playing song.
 struct NowPlayingSong: Equatable, Identifiable {
 	var id: String { title + artist }
-	let appName: String
-	let state: PlaybackState
-	let title: String
-	let artist: String
-	let albumArtURL: URL?
-	let position: Double?
-	let duration: Double?  // Duration in seconds
+	var appName: String
+	var state: PlaybackState
+	var title: String
+	var artist: String
+	var albumArt: NSImage?
+	var position: Double?
+	var duration: Double?  // Duration in seconds
+	
+	init() {
+		appName = ""
+		state = .stopped
+		title = ""
+		artist = ""
+		albumArt = nil
+		position = 0
+		duration = 1
+	}
 
-	/// Initializes a song model from a given output string.
-	/// - Parameters:
-	///   - application: The name of the music application.
-	///   - output: The output string returned by AppleScript.
-	init?(application: String, from output: String) {
-		let components = output.components(separatedBy: "|")
-		guard components.count == 6,
-			let state = PlaybackState(rawValue: components[0])
-		else {
-			return nil
-		}
-		// Replace commas with dots for correct decimal conversion.
-		let positionString = components[4].replacingOccurrences(
-			of: ",",
-			with: "."
-		)
-		let durationString = components[5].replacingOccurrences(
-			of: ",",
-			with: "."
-		)
-		guard let position = Double(positionString),
-			let duration = Double(durationString)
-		else {
-			return nil
-		}
-
-		self.appName = application
+	/// Initializes a song model from individual fields.
+	init(
+		appName: String,
+		state: PlaybackState,
+		title: String,
+		artist: String,
+		albumArt: NSImage?,
+		position: Double?,
+		duration: Double?
+	) {
+		self.appName = appName
 		self.state = state
-		self.title = components[1]
-		self.artist = components[2]
-		self.albumArtURL = URL(string: components[3])
+		self.title = title
+		self.artist = artist
+		self.albumArt = albumArt
 		self.position = position
-		if application == MusicApp.spotify.rawValue {
-			self.duration = duration / 1000
-		} else {
-			self.duration = duration
-		}
+		self.duration = duration
 	}
 }
 
 // MARK: - Supported Music Applications
 
-/// Supported music applications with corresponding AppleScript commands.
-enum MusicApp: String, CaseIterable {
-	case spotify = "Spotify"
-	case music = "Music"
+/// Supported music applications with corresponding SBApplications.
 
-	/// AppleScript to fetch the now playing song.
-	var nowPlayingScript: String {
-		if self == .music {
-			return """
-				if application "Music" is running then
-				    tell application "Music"
-				        if player state is playing or player state is paused then
-				            set currentTrack to current track
-				            try
-				                set artworkURL to (get URL of artwork 1 of currentTrack) as text
-				            on error
-				                set artworkURL to ""
-				            end try
-				            set stateText to ""
-				            if player state is playing then
-				                set stateText to "playing"
-				            else if player state is paused then
-				                set stateText to "paused"
-				            end if
-				            return stateText & "|" & (name of currentTrack) & "|" & (artist of currentTrack) & "|" & artworkURL & "|" & (player position as text) & "|" & ((duration of currentTrack) as text)
-				        else
-				            return "stopped"
-				        end if
-				    end tell
-				else
-				    return "stopped"
-				end if
-				"""
-		} else {
-			return """
-				if application "\(rawValue)" is running then
-				    tell application "\(rawValue)"
-				        if player state is playing then
-				            set currentTrack to current track
-				            return "playing|" & (name of currentTrack) & "|" & (artist of currentTrack) & "|" & (artwork url of currentTrack) & "|" & player position & "|" & (duration of currentTrack)
-				        else if player state is paused then
-				            set currentTrack to current track
-				            return "paused|" & (name of currentTrack) & "|" & (artist of currentTrack) & "|" & (artwork url of currentTrack) & "|" & player position & "|" & (duration of currentTrack)
-				        else
-				            return "stopped"
-				        end if
-				    end tell
-				else
-				    return "stopped"
-				end if
-				"""
-		}
-	}
-
-	var previousTrackCommand: String {
-		"tell application \"\(rawValue)\" to previous track"
-	}
-
-	var togglePlayPauseCommand: String {
-		"tell application \"\(rawValue)\" to playpause"
-	}
-
-	var nextTrackCommand: String {
-		"tell application \"\(rawValue)\" to next track"
+struct MusicApp: CaseIterable, Equatable {
+	var name: String
+	var sbApp: any SBMusicApplicationProtocol
+	
+	static var spotifySBApp = SBApplication(bundleIdentifier: "com.spotify.client")! as SpotifyApplication
+	static var musicSBApp = SBApplication(bundleIdentifier: "com.apple.Music")! as MusicApplication
+	
+	static var spotify = MusicApp(name: "Spotify", sbApp: spotifySBApp)
+	static var music = MusicApp(name: "Music", sbApp: musicSBApp)
+	
+	static var allCases: [Self] = [spotify, music]
+	
+	static func == (lhs: MusicApp, rhs: MusicApp) -> Bool {
+		lhs.name == rhs.name
 	}
 }
 
@@ -137,29 +80,50 @@ enum MusicApp: String, CaseIterable {
 final class NowPlayingProvider {
 
 	/// Returns the current playing song from any supported music application.
-	static func fetchNowPlaying() -> NowPlayingSong? {
+	static func fetchNowPlaying(_ song: inout NowPlayingSong?) {
+		if (song == nil) { song = NowPlayingSong() }
 		for app in MusicApp.allCases {
-			if let song = fetchNowPlaying(from: app) {
-				return song
-			}
+			fetchNowPlaying(from: app, song: &song!)
 		}
-		return nil
 	}
 
 	/// Returns the now playing song for a specific music application.
-	private static func fetchNowPlaying(from app: MusicApp) -> NowPlayingSong? {
-		guard let output = runAppleScript(app.nowPlayingScript),
-			output != "stopped"
-		else {
-			return nil
+	private static func fetchNowPlaying(from app: MusicApp, song: inout NowPlayingSong) {
+		if app == MusicApp.spotify {
+			let spotify = MusicApp.spotify.sbApp as! SpotifyApplication
+			if spotify.isRunning {
+				let track: SpotifyTrack = spotify.currentTrack!
+				if !(song.id == track.name ?? "" + (track.artist ?? "")) {
+					song.title = track.name ?? ""
+					song.artist = track.artist ?? ""
+					song.albumArt = track.artwork
+					song.duration = Double(track.duration ?? 1) / 1000
+				}
+				song.appName = app.name
+				song.position = spotify.playerPosition
+				song.state = spotify.playerState == .playing ? .playing : .paused
+			}
+		} else {
+			let appleMusic = MusicApp.music.sbApp as! MusicApplication
+			if appleMusic.isRunning {
+				let track: MusicTrack = appleMusic.currentTrack!
+				if !(song.id == (track.name ?? "") + (track.artist ?? "")) {
+					song.title = track.name ?? ""
+					song.artist = track.artist ?? ""
+					song.albumArt = (track.artworks?().get()?.first as! MusicArtwork).data
+					song.duration = track.duration
+				}
+				song.appName = app.name
+				song.position = appleMusic.playerPosition
+				song.state = appleMusic.playerState == .playing ? .playing : .paused
+			}
 		}
-		return NowPlayingSong(application: app.rawValue, from: output)
 	}
 
 	/// Checks if the specified music application is currently running.
 	static func isAppRunning(_ app: MusicApp) -> Bool {
 		NSWorkspace.shared.runningApplications.contains {
-			$0.localizedName == app.rawValue
+			$0.localizedName == app.name
 		}
 	}
 
@@ -211,26 +175,23 @@ final class NowPlayingManager: ObservableObject {
 
 	/// Updates the now playing song asynchronously.
 	private func updateNowPlaying() {
-		DispatchQueue.global(qos: .background).async {
-			let song = NowPlayingProvider.fetchNowPlaying()
-			DispatchQueue.main.async { [weak self] in
-				self?.nowPlaying = song
-			}
+		DispatchQueue.main.async {
+			NowPlayingProvider.fetchNowPlaying(&self.nowPlaying)
 		}
 	}
 
 	/// Skips to the previous track.
 	func previousTrack() {
-		NowPlayingProvider.executeCommand { $0.previousTrackCommand }
+		NowPlayingProvider.activeMusicApp()?.sbApp.previousTrack?()
 	}
 
 	/// Toggles between play and pause.
 	func togglePlayPause() {
-		NowPlayingProvider.executeCommand { $0.togglePlayPauseCommand }
+		NowPlayingProvider.activeMusicApp()?.sbApp.playpause?()
 	}
 
 	/// Skips to the next track.
 	func nextTrack() {
-		NowPlayingProvider.executeCommand { $0.nextTrackCommand }
+		NowPlayingProvider.activeMusicApp()?.sbApp.nextTrack?()
 	}
 }
