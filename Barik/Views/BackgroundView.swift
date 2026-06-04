@@ -23,10 +23,14 @@ struct BackgroundView: View {
 	var body: some View {
 		if configManager.config.experimental.background.displayed {
 			GeometryReader { geometry in
-				if configManager.config.experimental.background.black {
+				if configManager.config.experimental.background.type == .black {
 					spacer(geometry)
 						.background(.black)
 						.id("black")
+				} else if configManager.config.experimental.background.type == .vignette {
+					spacer(geometry)
+						.background(LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom))
+						.id("vignette")
 				} else {
 					spacer(geometry)
 						.background(configManager.config.experimental.background.blur)
