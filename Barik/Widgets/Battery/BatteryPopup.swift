@@ -11,7 +11,7 @@ struct BatteryPopup: View {
 			Circle()
 				.trim(from: 0, to: CGFloat(batteryManager.batteryLevel) / 100)
 				.stroke(
-					batteryColor,
+					batteryManager.color,
 					style: StrokeStyle(lineWidth: 6, lineCap: .round)
 				)
 				.rotationEffect(Angle(degrees: -90))
@@ -38,20 +38,6 @@ struct BatteryPopup: View {
 		}
 		.frame(width: 60, height: 60)
 		.padding(30)
-	}
-
-	private var batteryColor: Color {
-		if batteryManager.isCharging {
-			return .green
-		} else {
-			if batteryManager.batteryLevel <= 10 {
-				return .red
-			} else if batteryManager.batteryLevel <= 20 {
-				return .yellow
-			} else {
-				return .white
-			}
-		}
 	}
 }
 

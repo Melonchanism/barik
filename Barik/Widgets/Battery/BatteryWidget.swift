@@ -4,13 +4,13 @@ struct BatteryWidget: View {
 	@EnvironmentObject var configProvider: ConfigProvider
 	var config: ConfigData { configProvider.config }
 	var showPercentage: Bool { config["show-percentage"]?.boolValue ?? true }
-	var warningLevel: Int { config["warning-level"]?.intValue ?? 20 }
-	var criticalLevel: Int { config["critical-level"]?.intValue ?? 10 }
+	var criticalLevel: Int { config["critical-level"]?.intValue ?? 20 }
 
 	@StateObject private var batteryManager = BatteryManager()
 	private var level: Int { batteryManager.batteryLevel }
 	private var isCharging: Bool { batteryManager.isCharging }
 	private var isPluggedIn: Bool { batteryManager.isPluggedIn }
+	private var isLowPower: Bool { batteryManager.isLowPower }
 
 	@State private var rect: CGRect = CGRect()
 
@@ -19,34 +19,24 @@ struct BatteryWidget: View {
 			ZStack(alignment: .leading) {
 				BatteryBodyView(mask: false)
 					.opacity(showPercentage ? 0.3 : 0.4)
+				BatteryBodyView(mask: true)
+					.clipShape(
+						Rectangle().path(
+							in: CGRect(
+								x: showPercentage ? 0 : 2,
+								y: 0,
+								width: 30 * Int(level) / (showPercentage ? 110 : 130),
+								height: .bitWidth
+							)
+						)
+					)
+					.foregroundStyle(batteryManager.color)
 				BatteryText(
-					mask: true,
 					level: level,
 					isCharging: isCharging,
 					isPluggedIn: isPluggedIn
 				)
-				ZStack {
-					BatteryBodyView(mask: true)
-					BatteryText(
-						mask: false,
-						level: level,
-						isCharging: isCharging,
-						isPluggedIn: isPluggedIn
-					)
-					.foregroundStyle(batteryTextColor)
-				}
-				.clipShape(
-					Rectangle().path(
-						in: CGRect(
-							x: showPercentage ? 0 : 2,
-							y: 0,
-							width: 30 * Int(level)
-								/ (showPercentage ? 110 : 130),
-							height: .bitWidth
-						)
-					)
-				)
-				.foregroundStyle(batteryColor)
+				.foregroundStyle(.background)
 			}
 			.frame(width: 30, height: 10)
 			.background(
@@ -76,7 +66,7 @@ struct BatteryWidget: View {
 		if isCharging {
 			return .foregroundOutsideInvert
 		} else {
-			return level > warningLevel ? .foregroundOutsideInvert : .black
+			return isLowPower ? .foregroundOutsideInvert : .black
 		}
 	}
 
@@ -86,7 +76,7 @@ struct BatteryWidget: View {
 		} else {
 			if level <= criticalLevel {
 				return .red
-			} else if level <= warningLevel {
+			} else if isLowPower {
 				return .yellow
 			} else {
 				return .icon
@@ -99,7 +89,6 @@ private struct BatteryText: View {
 	@EnvironmentObject var configProvider: ConfigProvider
 	var config: ConfigData { configProvider.config }
 	var showPercentage: Bool { config["show-percentage"]?.boolValue ?? true }
-	var mask: Bool
 
 	let level: Int
 	let isCharging: Bool
@@ -109,6 +98,7 @@ private struct BatteryText: View {
 		HStack(alignment: .center, spacing: -1) {
 			if showPercentage {
 				Text("\(level)")
+					.shadow(color: .primary, radius: 1)
 					.font(.system(size: 12))
 					.transition(.blurReplace)
 			}
