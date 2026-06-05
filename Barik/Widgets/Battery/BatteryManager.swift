@@ -5,6 +5,8 @@ import SwiftUI
 
 /// This class monitors the battery status.
 class BatteryManager: ObservableObject {
+	static var shared = BatteryManager()
+
 	@Published var batteryLevel: Int = 0
 	@Published var isCharging: Bool = false
 	@Published var isPluggedIn: Bool = false
@@ -22,7 +24,9 @@ class BatteryManager: ObservableObject {
 		CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .defaultMode)
 		updateBatteryStatus(Unmanaged.passUnretained(self).toOpaque())
 
-		cancellable = NotificationCenter.default.publisher(for: Notification.Name.NSProcessInfoPowerStateDidChange).sink { _ in
+		cancellable = NotificationCenter.default.publisher(
+			for: Notification.Name.NSProcessInfoPowerStateDidChange
+		).sink { _ in
 			DispatchQueue.main.async {
 				self.isLowPower = ProcessInfo.processInfo.isLowPowerModeEnabled
 			}
@@ -33,7 +37,7 @@ class BatteryManager: ObservableObject {
 	deinit {
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), source, .defaultMode)
 	}
-	
+
 	var color: Color {
 		if self.isCharging {
 			return .green
@@ -71,12 +75,18 @@ private func updateBatteryStatus(_ context: UnsafeMutableRawPointer?) {
 			let powerSourceState = description[kIOPSPowerSourceStateKey as String] as? String
 		{
 			let isAC = (powerSourceState == kIOPSACPowerValue)
-
-			DispatchQueue.main.async {
+			
+			DispatchQueue.asyncIfNeeded {
 				manager.batteryLevel = (currentCapacity * 100) / maxCapacity
 				manager.isCharging = charging
 				manager.isPluggedIn = isAC
 			}
 		}
+	}
+}
+
+extension DispatchQueue {
+	static func asyncIfNeeded(_ block: @escaping () -> Void) {
+		if Thread.isMainThread { block() } else { DispatchQueue.main.async(execute: block) }
 	}
 }

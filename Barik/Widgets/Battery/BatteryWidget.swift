@@ -6,11 +6,7 @@ struct BatteryWidget: View {
 	var showPercentage: Bool { config["show-percentage"]?.boolValue ?? true }
 	var criticalLevel: Int { config["critical-level"]?.intValue ?? 20 }
 
-	@StateObject private var batteryManager = BatteryManager()
-	private var level: Int { batteryManager.batteryLevel }
-	private var isCharging: Bool { batteryManager.isCharging }
-	private var isPluggedIn: Bool { batteryManager.isPluggedIn }
-	private var isLowPower: Bool { batteryManager.isLowPower }
+	@ObservedObject var batteryManager = BatteryManager.shared
 
 	@State private var rect: CGRect = CGRect()
 
@@ -25,16 +21,16 @@ struct BatteryWidget: View {
 							in: CGRect(
 								x: showPercentage ? 0 : 2,
 								y: 0,
-								width: 30 * Int(level) / (showPercentage ? 110 : 130),
+								width: 30 * Int(batteryManager.batteryLevel) / (showPercentage ? 110 : 130),
 								height: .bitWidth
 							)
 						)
 					)
 					.foregroundStyle(batteryManager.color)
 				BatteryText(
-					level: level,
-					isCharging: isCharging,
-					isPluggedIn: isPluggedIn
+					level: batteryManager.batteryLevel,
+					isCharging: batteryManager.isCharging,
+					isPluggedIn: batteryManager.isPluggedIn
 				)
 				.foregroundStyle(.background)
 			}
@@ -63,24 +59,10 @@ struct BatteryWidget: View {
 	}
 
 	private var batteryTextColor: Color {
-		if isCharging {
+		if batteryManager.isCharging {
 			return .foregroundOutsideInvert
 		} else {
-			return isLowPower ? .foregroundOutsideInvert : .black
-		}
-	}
-
-	private var batteryColor: Color {
-		if isCharging {
-			return .green
-		} else {
-			if level <= criticalLevel {
-				return .red
-			} else if isLowPower {
-				return .yellow
-			} else {
-				return .icon
-			}
+			return batteryManager.isLowPower ? .foregroundOutsideInvert : .black
 		}
 	}
 }
@@ -114,9 +96,6 @@ private struct BatteryText: View {
 					.padding(.leading, 1)
 			}
 		}
-		//        .foregroundStyle(
-		//            showPercentage ? .foregroundOutsideInvert : .foregroundOutside
-		//        )
 		.fontWeight(.semibold)
 		.transition(.blurReplace)
 		.animation(.smooth, value: isCharging)
