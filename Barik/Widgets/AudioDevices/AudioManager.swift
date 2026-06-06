@@ -111,6 +111,7 @@ class AudioDevice: Equatable, Hashable, Identifiable {
 		} else {
 			self.volumeType = .none
 		}
+
 		self.transportType = getData(from: id, AOAddress.transportType, nilValue: 0)
 		// There is no null value for a URL
 		self.iconURL = getData(from: id, AOAddress.icon, nilValue: URL(string: "a")!)
@@ -164,10 +165,7 @@ class AudioManager: ObservableObject {
 		AudioObjectRemovePropertyListener(systemObject, &AOAddress.allDevices, updateDevices, ptr)
 		AudioObjectRemovePropertyListener(outputDevice!.id, &AOAddress.outputVolume, updateValue, ptr)
 		var address = AOAddress.outputVolume(for: 1)
-		AudioObjectRemovePropertyListener(
-			outputDevice!.id, &address,
-			updateValue, ptr
-		)
+		AudioObjectRemovePropertyListener(outputDevice!.id, &address, updateValue, ptr)
 	}
 
 	func setOutput(device: AudioDevice) {
@@ -253,6 +251,8 @@ private func updateValue(
 			manager.volume = getData(from: device!, AOAddress.outputVolume, nilValue: 0)
 		} else if manager.outputDevice?.volumeType == .channel {
 			manager.volume = getData(from: device!, AOAddress.outputVolume(for: 1), nilValue: 0)
+		} else {
+			manager.volume = nil
 		}
 	}
 	return 0

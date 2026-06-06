@@ -15,9 +15,12 @@ struct AudioWidget: View {
 
 	var body: some View {
 		VStack {
-			Image(systemName: "speaker.wave.3.fill", variableValue: (audioManager.outputDevice?.canSetVolume ?? false) ? Double(audioManager.volume ?? 1) : 1)
-				.bold()
-				.monospaced()
+			Image(
+				systemName: audioManager.volume == 0 ? "speaker.slash.fill" : "speaker.wave.3.fill",
+				variableValue: Double(audioManager.volume ?? 1)
+			)
+			.bold()
+			.monospaced()
 		}
 		.background(
 			GeometryReader { geometry in
