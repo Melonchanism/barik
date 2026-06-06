@@ -9,17 +9,15 @@ import SwiftUI
 struct AudioWidget: View {
 	@EnvironmentObject var configProvider: ConfigProvider
 
-	@StateObject var audioManager = AudioManager()
+	@ObservedObject var audioManager = AudioManager.shared
 
 	@State private var widgetFrame: CGRect = .zero
 
 	var body: some View {
-		HStack {
-			Text("\(audioManager.outputDeviceName ?? "")")
-			Text("\(Int((audioManager.volume ?? 1) * 100))%")
+		VStack {
+			Image(systemName: "speaker.wave.3.fill", variableValue: (audioManager.outputDevice?.canSetVolume ?? false) ? Double(audioManager.volume ?? 1) : 1)
+				.bold()
 				.monospaced()
-				.contentTransition(.numericText(value: Double(audioManager.volume ?? 1)))
-				.animation(.default, value: audioManager.volume)
 		}
 		.background(
 			GeometryReader { geometry in
