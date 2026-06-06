@@ -1,15 +1,6 @@
 {
-  "originHash" : "7528745e95d2d64c7ac9cdb9024ace2ee0cc4a6a3f04076e0676b7c02423cc95",
+  "originHash" : "aba7e633f9d5b626510fc37ae1c583f1f7ec86a883138d6601057243a9174d76",
   "pins" : [
-    {
-      "identity" : "networkimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/NetworkImage",
-      "state" : {
-        "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
-        "version" : "6.0.1"
-      }
-    },
     {
       "identity" : "skylightwindow",
       "kind" : "remoteSourceControl",
@@ -20,21 +11,30 @@
       }
     },
     {
-      "identity" : "swift-cmark",
+      "identity" : "swift-concurrency-extras",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/swiftlang/swift-cmark",
+      "location" : "https://github.com/pointfreeco/swift-concurrency-extras",
       "state" : {
-        "revision" : "3ccff77b2dc5b96b77db3da0d68d28068593fa53",
-        "version" : "0.5.0"
+        "revision" : "a90e2e40a7a840a853dd29e57cbef5dbb72c9d5b",
+        "version" : "1.4.0"
       }
     },
     {
-      "identity" : "swift-markdown-ui",
+      "identity" : "swiftui-math",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
+      "location" : "https://github.com/gonzalezreal/swiftui-math",
       "state" : {
-        "revision" : "5f613358148239d0292c0cef674a3c2314737f9e",
-        "version" : "2.4.1"
+        "revision" : "0b5c2cfaaec8d6193db206f675048eeb5ce95f71",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "textual",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gonzalezreal/textual",
+      "state" : {
+        "revision" : "5b06b811c0f5313b6b84bbef98c635a630638c38",
+        "version" : "0.3.1"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dduan/TOMLDecoder",
       "state" : {
-        "revision" : "018127977b7f67e4d60938ca69db2c56ff265109",
-        "version" : "0.3.1"
+        "revision" : "3c39488277639a9acd461eb9da266fd75fb420d1",
+        "version" : "0.3.3"
       }
     }
   ],

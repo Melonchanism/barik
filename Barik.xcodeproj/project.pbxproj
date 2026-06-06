@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031AE4FD2FD25518004F8E49 /* .swift-format in Sources */ = {isa = PBXBuildFile; fileRef = 031AE4FC2FD25516004F8E49 /* .swift-format */; };
 		03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */; };
-		F66C98C52D60E35600C3C53C /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = F66C98C42D60E35600C3C53C /* TOMLDecoder */; };
-		F6B514042D6C5F3400DFEB43 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = F6B514032D6C5F3400DFEB43 /* MarkdownUI */; };
+		03E72B9A2FD34FD500B230DB /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B992FD34FD500B230DB /* Textual */; };
+		03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B9C2FD34FE400B230DB /* TOMLDecoder */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		031AE4FC2FD25516004F8E49 /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-format"; sourceTree = "<group>"; };
 		C10E2F8A2D41235900AC957C /* Barik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Barik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -42,9 +44,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F66C98C52D60E35600C3C53C /* TOMLDecoder in Frameworks */,
+				03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */,
+				03E72B9A2FD34FD500B230DB /* Textual in Frameworks */,
 				03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */,
-				F6B514042D6C5F3400DFEB43 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +56,7 @@
 		C10E2F812D41235900AC957C = {
 			isa = PBXGroup;
 			children = (
+				031AE4FC2FD25516004F8E49 /* .swift-format */,
 				C10E2F8B2D41235900AC957C /* Products */,
 				C1BB4B332D526B5C00A1F46E /* Barik */,
 			);
@@ -90,9 +93,9 @@
 			);
 			name = Barik;
 			packageProductDependencies = (
-				F66C98C42D60E35600C3C53C /* TOMLDecoder */,
-				F6B514032D6C5F3400DFEB43 /* MarkdownUI */,
 				03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */,
+				03E72B992FD34FD500B230DB /* Textual */,
+				03E72B9C2FD34FE400B230DB /* TOMLDecoder */,
 			);
 			productName = Barik;
 			productReference = C10E2F8A2D41235900AC957C /* Barik.app */;
@@ -141,9 +144,9 @@
 			mainGroup = C10E2F812D41235900AC957C;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F66C98C32D60E35600C3C53C /* XCRemoteSwiftPackageReference "TOMLDecoder" */,
-				F6B514022D6C5F3400DFEB43 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */,
+				03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */,
+				03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C10E2F8B2D41235900AC957C /* Products */;
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				031AE4FD2FD25518004F8E49 /* .swift-format in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,11 +325,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 0.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Pansy.Barik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -355,11 +360,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 0.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Pansy.Barik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -396,20 +402,20 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		F66C98C32D60E35600C3C53C /* XCRemoteSwiftPackageReference "TOMLDecoder" */ = {
+		03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dduan/TOMLDecoder";
+			repositoryURL = "https://github.com/gonzalezreal/textual";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.3.1;
 			};
 		};
-		F6B514022D6C5F3400DFEB43 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+		03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			repositoryURL = "https://github.com/dduan/TOMLDecoder";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.1;
+				kind = exactVersion;
+				version = 0.3.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -420,15 +426,15 @@
 			package = 03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */;
 			productName = SkyLightWindow;
 		};
-		F66C98C42D60E35600C3C53C /* TOMLDecoder */ = {
+		03E72B992FD34FD500B230DB /* Textual */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F66C98C32D60E35600C3C53C /* XCRemoteSwiftPackageReference "TOMLDecoder" */;
-			productName = TOMLDecoder;
+			package = 03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */;
+			productName = Textual;
 		};
-		F6B514032D6C5F3400DFEB43 /* MarkdownUI */ = {
+		03E72B9C2FD34FE400B230DB /* TOMLDecoder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F6B514022D6C5F3400DFEB43 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
-			productName = MarkdownUI;
+			package = 03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */;
+			productName = TOMLDecoder;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

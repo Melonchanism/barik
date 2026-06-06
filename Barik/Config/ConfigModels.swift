@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import TOMLDecoder
 
 struct RootToml: Decodable {
 	var theme: String?
