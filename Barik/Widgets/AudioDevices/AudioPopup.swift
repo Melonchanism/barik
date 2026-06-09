@@ -1,3 +1,4 @@
+import Combine
 //
 //  AudioPopup.swift
 //  Barik
@@ -12,11 +13,10 @@ struct AudioPopup: View {
 	@ObservedObject var audioManager = AudioManager.shared
 
 	var body: some View {
-		HStack {
+		HStack(spacing: 4) {
 			AudioFaderView()
 			Divider()
 				.frame(maxHeight: 200)
-				.padding(2)
 			VStack {
 				ForEach(audioManager.devices.filter { $0.hasOutput }) { device in
 					HStack {
@@ -25,7 +25,8 @@ struct AudioPopup: View {
 							.padding(6)
 							.background(
 								Circle().fill(
-									device == audioManager.outputDevice ? Color.accentColor : .gray.opacity(0.5)))
+									device == audioManager.outputDevice ? Color.accentColor : .gray.opacity(0.5))
+							)
 						Text(device.name)
 							.frame(maxWidth: .infinity, alignment: .leading)
 					}
@@ -46,14 +47,16 @@ struct AudioFaderView: View {
 	@State private var offset: CGFloat = 100
 	@State private var preOffset: CGFloat = 0
 	@State private var dragging: Bool = false
+	
+	private var displayedVolume: Int { dragging ? Int((-offset / 200 + 0.5) * 100) : Int((audioManager.volume ?? 0) * 100) }
 
 	var body: some View {
-		VStack {
+		VStack(spacing: 12) {
 			ZStack {
-				RoundedRectangle(cornerRadius: .infinity)
+				Capsule()
 					.fill(.gray.opacity(0.5))
 					.frame(maxWidth: 5, maxHeight: 200)
-				RoundedRectangle(cornerRadius: .infinity)
+				Capsule()
 					.fill(.white)
 					.frame(maxWidth: 30, maxHeight: 14)
 					.offset(y: offset)
@@ -71,9 +74,9 @@ struct AudioFaderView: View {
 						audioManager.setVolume(Float32(-offset / 200 + 0.5))
 					}
 					.onEnded { _ in
+						dragging = false
 						withAnimation {
 							offset = -CGFloat((audioManager.volume ?? 0) * 200 - 100)
-							dragging = false
 						}
 					}
 			)
@@ -83,10 +86,12 @@ struct AudioFaderView: View {
 					offset = -CGFloat((audioManager.volume ?? 0) * 200 - 100)
 				}
 			}
-			
-			Text(audioManager.volume != nil ? "\(Int((audioManager.volume!) * 100))%" : "N/A")
-				.contentTransition(.numericText(value: Double(audioManager.volume ?? 0)))
-				.animation(.default, value: audioManager.volume)
+
+			Text(audioManager.outputDevice?.canSetVolume == true ? "\(displayedVolume)%" : "N/A")
+				.monospaced()
+				.contentTransition(.numericText(value: Double(displayedVolume)))
+				.animation(.snappy(duration: 0.05), value: displayedVolume)
 		}
+		.frame(minWidth: 50)
 	}
 }

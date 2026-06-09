@@ -15,11 +15,11 @@ class AudioDevice: Equatable, Hashable, Identifiable {
 	var id: AudioObjectID
 
 	enum VolumeType {
-		case output, channel, none
+		case output, channel, constant
 	}
 
 	var volumeType: VolumeType
-	var canSetVolume: Bool { volumeType != .none }
+	var canSetVolume: Bool { volumeType != .constant }
 	var transportType: UInt32
 	var iconURL: URL
 
@@ -38,7 +38,7 @@ class AudioDevice: Equatable, Hashable, Identifiable {
 		} else if getIsSettable(of: id, channel1) {
 			self.volumeType = .channel
 		} else {
-			self.volumeType = .none
+			self.volumeType = .constant
 		}
 
 		self.transportType = getData(of: id, AOAddress.transportType, nilValue: 0)
