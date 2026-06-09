@@ -73,8 +73,11 @@ class AnySpacesProvider {
 	private let _getSpacesWithWindows: () -> [AnySpace]?
 	private let _focusSpace: ((String, Bool) -> Void)?
 	private let _focusWindow: ((String) -> Void)?
+	
+	var provider: any SpacesProvider
 
 	init<P: SpacesProvider>(_ provider: P) {
+		self.provider = provider
 		_getSpacesWithWindows = {
 			provider.getSpacesWithWindows()?.map { AnySpace($0) }
 		}

@@ -1,4 +1,5 @@
 import Foundation
+import notify
 
 class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	typealias SpaceType = YabaiSpace
@@ -17,7 +18,7 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 			return nil
 		}
 		let data = pipe.fileHandleForReading.readDataToEndOfFile()
-		process.waitUntilExit()
+		while (process.isRunning) {}
 		return data
 	}
 
@@ -102,5 +103,26 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 
 	func focusWindow(windowId: String) {
 		_ = runYabaiCommand(arguments: ["-m", "window", "--focus", windowId])
+	}
+	
+	func registerListeners() {
+		for event in ["application_front_switched", "window_created", "window_destroyed", "window_focused", "window_minimized", "window_deminimized", "window_title_changed", "space_created", "space_destroyed", "space_changed", "display_added", "display_removed"] {
+			if (
+				String(data: runYabaiCommand(arguments: ["-m", "signal", "--list"])!, encoding: .utf8)?
+					.contains("Barik") ?? true
+			) {
+				return
+			}
+			_ = runYabaiCommand(
+				arguments: [
+					"-m",
+					"signal",
+					"--add",
+					"event=\(event)",
+					"action=notifyutil -p WMUpdate",
+					"label=\(event)Barik"
+				]
+			)
+		}
 	}
 }

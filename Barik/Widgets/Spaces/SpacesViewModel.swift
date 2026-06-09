@@ -1,11 +1,14 @@
 import AppKit
 import Combine
 import Foundation
+import notify
 
 class SpacesViewModel: ObservableObject {
 	@Published var spaces: [AnySpace] = []
 	private var timer: Timer?
 	private var provider: AnySpacesProvider?
+	
+	var token: Int32 = 0
 
 	init() {
 		let runningApps = NSWorkspace.shared.runningApplications.compactMap {
@@ -26,9 +29,13 @@ class SpacesViewModel: ObservableObject {
 	}
 
 	private func startMonitoring() {
-		timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) {
-			[weak self] _ in
-			self?.loadSpaces()
+		if let yabai = self.provider?.provider as? YabaiSpacesProvider {
+			yabai.registerListeners()
+			notify_register_dispatch("WMUpdate", &token, DispatchQueue.main) { _ in self.loadSpaces() }
+		} else {
+			timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+				self.loadSpaces()
+			}
 		}
 		loadSpaces()
 	}
