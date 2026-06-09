@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		031AE4FD2FD25518004F8E49 /* .swift-format in Sources */ = {isa = PBXBuildFile; fileRef = 031AE4FC2FD25516004F8E49 /* .swift-format */; };
+		0371D9ED2FD8C2EB00D2E9E7 /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */; };
 		03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */; };
 		03E72B9A2FD34FD500B230DB /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B992FD34FD500B230DB /* Textual */; };
 		03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B9C2FD34FE400B230DB /* TOMLDecoder */; };
@@ -46,6 +47,7 @@
 			files = (
 				03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */,
 				03E72B9A2FD34FD500B230DB /* Textual in Frameworks */,
+				0371D9ED2FD8C2EB00D2E9E7 /* SmoothGradient in Frameworks */,
 				03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +98,7 @@
 				03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */,
 				03E72B992FD34FD500B230DB /* Textual */,
 				03E72B9C2FD34FE400B230DB /* TOMLDecoder */,
+				0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */,
 			);
 			productName = Barik;
 			productReference = C10E2F8A2D41235900AC957C /* Barik.app */;
@@ -147,6 +150,7 @@
 				03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */,
 				03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */,
 				03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */,
+				0371D9EB2FD8C2EB00D2E9E7 /* XCRemoteSwiftPackageReference "SmoothGradient" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C10E2F8B2D41235900AC957C /* Products */;
@@ -394,6 +398,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0371D9EB2FD8C2EB00D2E9E7 /* XCRemoteSwiftPackageReference "SmoothGradient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raymondjavaxx/SmoothGradient.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 		03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Lakr233/SkyLightWindow";
@@ -421,6 +433,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0371D9EB2FD8C2EB00D2E9E7 /* XCRemoteSwiftPackageReference "SmoothGradient" */;
+			productName = SmoothGradient;
+		};
 		03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */;

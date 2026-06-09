@@ -385,8 +385,8 @@ struct BackgroundConfig: Decodable {
 		var materialIndex = try container.decodeIfPresent(Int.self, forKey: .blur) ?? 1
 		if materialIndex < 1 {
 			materialIndex = 1
-		} else if materialIndex > 7 {
-			materialIndex = 7
+		} else if materialIndex > 8 {
+			materialIndex = 8
 		}
 
 		blur = [.ultraThin, .thin, .regular, .thick, .ultraThick, .bar, .bar, .bar][materialIndex - 1]
@@ -399,7 +399,7 @@ struct BackgroundConfig: Decodable {
 		case displayed, height, blur
 	}
 
-	func resolveHeight() -> CGFloat? {
+	var resolvedHeight: CGFloat? {
 		switch height {
 		case .barikDefault:
 			return nil

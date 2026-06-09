@@ -40,13 +40,6 @@ struct MenuBarView: View {
 			.horizontal,
 			configManager.config.experimental.foreground.horizontalPadding
 		)
-		.background(
-			LinearGradient(
-				colors: [.shadow, .clear],
-				startPoint: .top,
-				endPoint: .bottom
-			)
-		)
 		.preferredColorScheme(theme)
 	}
 
@@ -73,7 +66,7 @@ struct MenuBarView: View {
 		case "default.nowplaying":
 			NowPlayingWidget()
 				.environmentObject(config)
-		
+
 		case "default.audiodevices":
 			AudioWidget()
 				.environmentObject(config)

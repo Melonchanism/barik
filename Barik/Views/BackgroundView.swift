@@ -1,42 +1,39 @@
 import SwiftUI
+import SmoothGradient
 
 struct BackgroundView: View {
 	@ObservedObject var configManager = ConfigManager.shared
+	var height: CGFloat? { configManager.config.experimental.background.resolvedHeight }
+	var theme: ColorScheme? {
+		switch configManager.config.rootToml.theme {
+		case "dark": return .dark
+		case "light": return .light
+		default: return nil
+		}
+	}
 
-	private func spacer(_ geometry: GeometryProxy) -> some View {
-		let theme: ColorScheme? = {
-			switch configManager.config.rootToml.theme {
-			case "dark": return .dark
-			case "light": return .light
-			default: return nil
-			}
-		}()
-
-		let height = configManager.config.experimental.background.resolveHeight()
-
-		return Color.clear
-			.frame(height: height ?? geometry.size.height)
-			.preferredColorScheme(theme)
-
+	private var background: AnyShapeStyle {
+		switch configManager.config.experimental.background.type {
+		case .black:
+			AnyShapeStyle(.black)
+		case .blur:
+			AnyShapeStyle(configManager.config.experimental.background.blur)
+		case .vignette:
+			AnyShapeStyle(
+				SmoothLinearGradient(
+					from: .shadow, to: .clear,
+					startPoint: .top,
+					endPoint: .bottom
+				))
+		}
 	}
 
 	var body: some View {
 		if configManager.config.experimental.background.displayed {
-			GeometryReader { geometry in
-				if configManager.config.experimental.background.type == .black {
-					spacer(geometry)
-						.background(.black)
-						.id("black")
-				} else if configManager.config.experimental.background.type == .vignette {
-					spacer(geometry)
-						.background(LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom))
-						.id("vignette")
-				} else {
-					spacer(geometry)
-						.background(configManager.config.experimental.background.blur)
-						.id("blur")
-				}
-			}
+			Rectangle()
+				.fill(background)
+				.frame(height: height)
+				.preferredColorScheme(theme)
 		}
 	}
 }
