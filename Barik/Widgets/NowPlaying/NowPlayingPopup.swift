@@ -51,8 +51,7 @@ private struct NowPlayingVerticalPopup: View {
 
 	var body: some View {
 		if let song = playingManager.nowPlaying,
-			let duration = song.duration,
-			let position = song.position
+			let duration = song.duration
 		{
 			VStack(spacing: 15) {
 				RotateAnimatedImage(image: song.albumArt) {
@@ -61,36 +60,29 @@ private struct NowPlayingVerticalPopup: View {
 						.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 				}
 				.frame(width: 200, height: 200)
-				.scaleEffect(song.state == .paused ? 0.9 : 1)
-				.overlay(
-					song.state == .paused
-						? Color.black.opacity(0.3)
-							.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-						: nil
-				)
-				.animation(
-					.smooth(duration: 0.5, extraBounce: 0.4),
-					value: song.state == .paused
-				)
+				.scaleEffect(playingManager.state == .paused ? 0.9 : 1)
+				.overlay(playingManager.state == .paused ? Color.black.opacity(0.3) : nil)
+				.animation(.smooth(duration: 0.5, extraBounce: 0.4), value: playingManager.state == .paused)
+				.onTapGesture { playingManager.focusApp() }
 
 				VStack(alignment: .center) {
-					Text(song.title)
+					Text(song.title ?? "Not Playing")
 						.multilineTextAlignment(.center)
 						.font(.system(size: 15))
 						.fontWeight(.medium)
-					Text(song.artist)
+					Text(song.artist ?? "")
 						.opacity(0.6)
 						.font(.system(size: 15))
 						.fontWeight(.light)
 				}
 
 				HStack {
-					Text(timeString(from: position))
+					Text(timeString(from: playingManager.position))
 						.font(.caption)
-					ProgressView(value: position, total: duration)
+					ProgressView(value: playingManager.position, total: duration)
 						.progressViewStyle(LinearProgressViewStyle())
 						.tint(.white)
-					Text("-" + timeString(from: duration - position))
+					Text("-" + timeString(from: duration - playingManager.position))
 						.font(.caption)
 				}
 				.foregroundColor(.gray)
@@ -100,7 +92,7 @@ private struct NowPlayingVerticalPopup: View {
 					Image(systemName: "backward.fill")
 						.font(.system(size: 20))
 						.onTapGesture { playingManager.previousTrack() }
-					Image(systemName: song.state == .paused ? "play.fill" : "pause.fill")
+					Image(systemName: playingManager.state == .paused ? "play.fill" : "pause.fill")
 						.font(.system(size: 30))
 						.onTapGesture { playingManager.togglePlayPause() }
 					Image(systemName: "forward.fill")
@@ -122,8 +114,7 @@ struct NowPlayingHorizontalPopup: View {
 
 	var body: some View {
 		if let song = playingManager.nowPlaying,
-			let duration = song.duration,
-			let position = song.position
+			let duration = song.duration
 		{
 			VStack(spacing: 15) {
 				HStack(spacing: 15) {
@@ -133,25 +124,16 @@ struct NowPlayingHorizontalPopup: View {
 							.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 					}
 					.frame(width: 60, height: 60)
-					.scaleEffect(song.state == .paused ? 0.9 : 1)
-					.overlay(
-						song.state == .paused
-							? Color.black.opacity(0.3)
-								.clipShape(
-									RoundedRectangle(cornerRadius: 10, style: .continuous)
-								)
-							: nil
-					)
-					.animation(
-						.smooth(duration: 0.5, extraBounce: 0.4),
-						value: song.state == .paused
-					)
+					.scaleEffect(playingManager.state == .paused ? 0.9 : 1)
+					.overlay(playingManager.state == .paused ? Color.black.opacity(0.3) : nil)
+					.animation(.smooth(duration: 0.5, extraBounce: 0.4), value: playingManager.state == .paused)
+					.onTapGesture { playingManager.focusApp() }
 
 					VStack(alignment: .leading, spacing: 0) {
-						Text(song.title)
+						Text(song.title ?? "Not Playing")
 							.font(.headline)
 							.fontWeight(.medium)
-						Text(song.artist)
+						Text(song.artist ?? "")
 							.opacity(0.6)
 							.font(.headline)
 							.fontWeight(.light)
@@ -161,12 +143,12 @@ struct NowPlayingHorizontalPopup: View {
 				}
 
 				HStack {
-					Text(timeString(from: position))
+					Text(timeString(from: playingManager.position))
 						.font(.caption)
-					ProgressView(value: position, total: duration)
+					ProgressView(value: playingManager.position, total: duration)
 						.progressViewStyle(LinearProgressViewStyle())
 						.tint(.white)
-					Text("-" + timeString(from: duration - position))
+					Text("-" + timeString(from: duration - playingManager.position))
 						.font(.caption)
 				}
 				.foregroundColor(.gray)
@@ -176,7 +158,7 @@ struct NowPlayingHorizontalPopup: View {
 					Image(systemName: "backward.fill")
 						.font(.system(size: 20))
 						.onTapGesture { playingManager.previousTrack() }
-					Image(systemName: song.state == .paused ? "play.fill" : "pause.fill")
+					Image(systemName: playingManager.state == .paused ? "play.fill" : "pause.fill")
 						.font(.system(size: 30))
 						.onTapGesture { playingManager.togglePlayPause() }
 					Image(systemName: "forward.fill")
