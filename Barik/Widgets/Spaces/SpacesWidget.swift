@@ -43,42 +43,32 @@ private struct SpaceView: View {
 	var body: some View {
 		let isFocused =
 			space.windows.contains { $0.isFocused } || space.isFocused
-		HStack(spacing: 0) {
-			Spacer().frame(width: 10)
+		HStack(spacing: 5) {
 			if showKey {
 				Text(space.id)
 					.font(.headline)
 					.frame(minWidth: 15)
+					.monospaced()
 					.fixedSize(horizontal: true, vertical: false)
-				Spacer().frame(width: 5)
 			}
-			HStack(spacing: 2) {
-				ForEach(space.windows) { window in
-					WindowView(window: window, space: space)
+			if !space.windows.isEmpty {
+				HStack(spacing: 2) {
+					ForEach(space.windows) { window in
+						WindowView(window: window, space: space)
+					}
 				}
 			}
-			Spacer().frame(width: 10)
 		}
+		.padding(.horizontal, 8)
 		.frame(height: 30)
 		.background(
 			ZStack {
-				Rectangle().fill(Material.regular)
-				foregroundHeight < 30
-					? (isFocused
-						? Color.noActive
-						: Color.clear)
-					: (isFocused
-						? Color.active
-						: isHovered ? Color.noActive : Color.noActive)
+				RoundedRectangle(cornerRadius: foregroundHeight < 30 ? 0 : 8, style: .continuous)
+					.fill(configManager.config.experimental.foreground.widgetsBackground.blur)
+					.fill(isHovered ? Color.noActive : isFocused ? Color.active : Color.clear)
+					.stroke(Color.noActive)
 			}
 		)
-		.clipShape(
-			RoundedRectangle(
-				cornerRadius: foregroundHeight < 30 ? 0 : 8,
-				style: .continuous
-			)
-		)
-		.shadow(color: .shadow, radius: foregroundHeight < 30 ? 0 : 2)
 		.transition(.blurReplace)
 		.onTapGesture {
 			viewModel.switchToSpace(space, needWindowFocus: true)
