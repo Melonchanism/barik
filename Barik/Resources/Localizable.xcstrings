@@ -7,6 +7,9 @@
     "%lld" : {
       "shouldTranslate" : false
     },
+    "%lld%%" : {
+
+    },
     "ALL_DAY" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -504,6 +507,9 @@
           }
         }
       }
+    },
+    "N/A" : {
+
     },
     "Noise: %lld" : {
       "localizations" : {
