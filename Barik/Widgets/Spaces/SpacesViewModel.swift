@@ -6,7 +6,7 @@ import notify
 class SpacesViewModel: ObservableObject {
 	@Published var spaces: [AnySpace] = []
 	private var timer: Timer?
-	private var provider: AnySpacesProvider?
+	private var provider: (any SwitchableSpacesProvider)?
 	
 	var token: Int32 = 0
 
@@ -29,9 +29,11 @@ class SpacesViewModel: ObservableObject {
 	}
 
 	private func startMonitoring() {
-		if let yabai = self.provider?.provider as? YabaiSpacesProvider {
+		if let yabai = self.provider as? YabaiSpacesProvider {
 			yabai.registerListeners()
-			notify_register_dispatch("WMUpdate", &token, DispatchQueue.main) { _ in self.loadSpaces() }
+			notify_register_dispatch("WMUpdate", &token, DispatchQueue.main) { _ in
+				self.loadSpaces()
+			}
 		} else {
 			timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
 				self.loadSpaces()
@@ -46,16 +48,17 @@ class SpacesViewModel: ObservableObject {
 	}
 
 	private func loadSpaces() {
-		DispatchQueue.global(qos: .background).async {
+		let initialTime = Date.now
+		DispatchQueue.global(qos: .userInteractive).async {
 			guard let provider = self.provider,
-				let spaces = provider.getSpacesWithWindows()
+						let spaces = provider.getSpaces()
 			else {
 				DispatchQueue.main.async {
 					self.spaces = []
 				}
 				return
 			}
-			let sortedSpaces = spaces.sorted { $0.id < $1.id }
+			let sortedSpaces = spaces.map { AnySpace($0) }.sorted { $0.id < $1.id }
 			DispatchQueue.main.async {
 				self.spaces = sortedSpaces
 			}
@@ -63,7 +66,7 @@ class SpacesViewModel: ObservableObject {
 	}
 
 	func switchToSpace(_ space: AnySpace, needWindowFocus: Bool = false) {
-		DispatchQueue.global(qos: .userInitiated).async {
+		DispatchQueue.global(qos: .userInteractive).async {
 			self.provider?.focusSpace(
 				spaceId: space.id,
 				needWindowFocus: needWindowFocus
@@ -72,7 +75,7 @@ class SpacesViewModel: ObservableObject {
 	}
 
 	func switchToWindow(_ window: AnyWindow) {
-		DispatchQueue.global(qos: .userInitiated).async {
+		DispatchQueue.global(qos: .userInteractive).async {
 			self.provider?.focusWindow(windowId: String(window.id))
 		}
 	}

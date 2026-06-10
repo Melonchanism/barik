@@ -69,43 +69,6 @@ struct AnySpace: Identifiable, Equatable {
 	}
 }
 
-class AnySpacesProvider {
-	private let _getSpacesWithWindows: () -> [AnySpace]?
-	private let _focusSpace: ((String, Bool) -> Void)?
-	private let _focusWindow: ((String) -> Void)?
-	
-	var provider: any SpacesProvider
-
-	init<P: SpacesProvider>(_ provider: P) {
-		self.provider = provider
-		_getSpacesWithWindows = {
-			provider.getSpacesWithWindows()?.map { AnySpace($0) }
-		}
-		if let switchable = provider as? any SwitchableSpacesProvider {
-			_focusSpace = { spaceId, needWindowFocus in
-				switchable.focusSpace(
-					spaceId: spaceId,
-					needWindowFocus: needWindowFocus
-				)
-			}
-			_focusWindow = { windowId in
-				switchable.focusWindow(windowId: windowId)
-			}
-		} else {
-			_focusSpace = nil
-			_focusWindow = nil
-		}
-	}
-
-	func getSpacesWithWindows() -> [AnySpace]? {
-		_getSpacesWithWindows()
-	}
-
-	func focusSpace(spaceId: String, needWindowFocus: Bool) {
-		_focusSpace?(spaceId, needWindowFocus)
-	}
-
-	func focusWindow(windowId: String) {
-		_focusWindow?(windowId)
-	}
+func AnySpacesProvider(_ provider: any SwitchableSpacesProvider) -> any SwitchableSpacesProvider {
+	return provider as any SwitchableSpacesProvider
 }
