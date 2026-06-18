@@ -159,7 +159,10 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	}
 
 	func registerListeners() {
-		if String(data: runYabaiCommand(arguments: ["-m", "signal", "--list"])!, encoding: .utf8)?
+		if String(
+			data: runYabaiCommand(arguments: ["-m", "signal", "--list"]) ?? Data(),
+			encoding: .utf8
+		)?
 			.contains("Barik") ?? true
 		{
 			return
