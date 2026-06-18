@@ -10,6 +10,9 @@
     "%lld%%" : {
 
     },
+    "About This Mac" : {
+
+    },
     "ALL_DAY" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -508,6 +511,15 @@
         }
       }
     },
+    "Lock Screen" : {
+
+    },
+    "Log Out" : {
+
+    },
+    "Login Window" : {
+
+    },
     "N/A" : {
 
     },
@@ -759,6 +771,9 @@
         }
       }
     },
+    "Screen Saver" : {
+
+    },
     "Signal strength: %@" : {
       "localizations" : {
         "ar" : {
@@ -882,6 +897,12 @@
           }
         }
       }
+    },
+    "System Information" : {
+
+    },
+    "System Settings" : {
+
     },
     "TODAY" : {
       "extractionState" : "manual",

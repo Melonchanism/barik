@@ -72,6 +72,7 @@ final class ConfigManager: ObservableObject {
 
 			[widgets]
 			displayed = [ # widgets on menu bar
+			    "default.applemenu",
 			    "default.spaces",
 			    "spacer",
 			    "default.network",

@@ -50,6 +50,9 @@ struct MenuBarView: View {
 		)
 
 		switch item.id {
+		case "default.applemenu":
+			AppleMenuWidget()
+
 		case "default.spaces":
 			SpacesWidget().environmentObject(config)
 
