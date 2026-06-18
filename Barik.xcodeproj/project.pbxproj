@@ -9,13 +9,19 @@
 /* Begin PBXBuildFile section */
 		031AE4FD2FD25518004F8E49 /* .swift-format in Sources */ = {isa = PBXBuildFile; fileRef = 031AE4FC2FD25516004F8E49 /* .swift-format */; };
 		0371D9ED2FD8C2EB00D2E9E7 /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */; };
+		037742812FE3421900F4CBD6 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037742802FE3421900F4CBD6 /* ApplicationServices.framework */; };
+		037742832FE3421E00F4CBD6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037742822FE3421E00F4CBD6 /* Carbon.framework */; };
 		03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */; };
+		03BD03182FDB70C100C1D04A /* login.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03BD02982FDB704E00C1D04A /* login.framework */; };
 		03E72B9A2FD34FD500B230DB /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B992FD34FD500B230DB /* Textual */; };
 		03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B9C2FD34FE400B230DB /* TOMLDecoder */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		031AE4FC2FD25516004F8E49 /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-format"; sourceTree = "<group>"; };
+		037742802FE3421900F4CBD6 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		037742822FE3421E00F4CBD6 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		03BD02982FDB704E00C1D04A /* login.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = login.framework; path = ../../../../../System/Library/PrivateFrameworks/login.framework; sourceTree = "<group>"; };
 		C10E2F8A2D41235900AC957C /* Barik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Barik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -45,7 +51,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037742832FE3421E00F4CBD6 /* Carbon.framework in Frameworks */,
 				03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */,
+				037742812FE3421900F4CBD6 /* ApplicationServices.framework in Frameworks */,
+				03BD03182FDB70C100C1D04A /* login.framework in Frameworks */,
 				03E72B9A2FD34FD500B230DB /* Textual in Frameworks */,
 				0371D9ED2FD8C2EB00D2E9E7 /* SmoothGradient in Frameworks */,
 				03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */,
@@ -55,12 +64,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03BD02972FDB704E00C1D04A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				037742822FE3421E00F4CBD6 /* Carbon.framework */,
+				037742802FE3421900F4CBD6 /* ApplicationServices.framework */,
+				03BD02982FDB704E00C1D04A /* login.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C10E2F812D41235900AC957C = {
 			isa = PBXGroup;
 			children = (
 				031AE4FC2FD25516004F8E49 /* .swift-format */,
 				C10E2F8B2D41235900AC957C /* Products */,
 				C1BB4B332D526B5C00A1F46E /* Barik */,
+				03BD02972FDB704E00C1D04A /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -334,8 +354,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Pansy.Barik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Barik/Utils/BridgingHeader.h;
 				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 			};
 			name = Debug;
 		};
@@ -369,8 +396,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Pansy.Barik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Barik/Utils/BridgingHeader.h;
 				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 			};
 			name = Release;
 		};
