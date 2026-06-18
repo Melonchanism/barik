@@ -25,7 +25,10 @@ class SpotifyProvider: NowPlayingProvider {
 	func prevTrack() { sbApp.previousTrack?() }
 	func seek(to time: TimeInterval) { sbApp.setPlayerPosition?(time) }
 	var position: TimeInterval? { sbApp.playerPosition }
-	var state: PlaybackState { .standard(value: sbApp.playerState?.rawValue) ?? .stopped }
+	var state: PlaybackState {
+		if !isRunning { return .stopped }
+		else { return .standard(value: sbApp.playerState?.rawValue) ?? .stopped }
+	}
 	var nowPlaying: NowPlayingSong? {
 		guard let track: SpotifyTrack = sbApp.currentTrack else { return nil }
 		return NowPlayingSong(

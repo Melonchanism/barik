@@ -19,7 +19,7 @@ struct NowPlayingWidget: View {
 
 	var body: some View {
 		ZStack(alignment: .leading) {
-			if let song = playingManager.nowPlaying {
+			if let song = playingManager.nowPlaying, playingManager.state != .stopped {
 				HStack(spacing: 8) {
 					AlbumArtView(song: song)
 					SongTextView(song: song)
@@ -71,7 +71,6 @@ struct AlbumArtView: View {
 				.resizable()
 				.frame(width: 20, height: 20)
 				.clipShape(RoundedRectangle(cornerRadius: 4))
-				.scaleEffect(playingManager.state == .paused ? 0.9 : 1)
 				.brightness(playingManager.state == .paused ? -0.3 : 0)
 
 			if playingManager.state == .paused {
@@ -80,7 +79,7 @@ struct AlbumArtView: View {
 					.transition(.blurReplace)
 			}
 		}
-		.animation(.smooth(duration: 0.1), value: playingManager.state == .paused)
+		.animation(.default, value: playingManager.state == .paused)
 	}
 }
 

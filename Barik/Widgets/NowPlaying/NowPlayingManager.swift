@@ -90,9 +90,10 @@ class NowPlayingManager: ObservableObject {
 	/// Updates the now playing song asynchronously.
 	private func updateNowPlaying() {
 		DispatchQueue.main.async { [self] in
+			state = activeProvider?.state ?? .stopped
+			guard state != .stopped else { return }
 			if (nowPlaying != activeProvider?.nowPlaying) { nowPlaying = activeProvider?.nowPlaying }
 			position = activeProvider?.position ?? 0
-			state = activeProvider?.state ?? .stopped
 		}
 	}
 
