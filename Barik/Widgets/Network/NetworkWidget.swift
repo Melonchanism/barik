@@ -8,12 +8,13 @@ struct NetworkWidget: View {
 	var body: some View {
 		HStack(spacing: 15) {
 			if viewModel.wifiState != .notSupported {
-				wifiIcon
+				AnyView(wifiIcon)
 			}
 			if viewModel.ethernetState != .notSupported {
-				ethernetIcon
+				AnyView(ethernetIcon)
 			}
 		}
+		.bold()
 		.background(
 			GeometryReader { geometry in
 				Color.clear
@@ -33,7 +34,7 @@ struct NetworkWidget: View {
 		}
 	}
 
-	private var wifiIcon: some View {
+	private var wifiIcon: any View {
 		if viewModel.ssid == "Not connected" {
 			return Image(systemName: "wifi.slash")
 				.foregroundColor(.red)
@@ -41,7 +42,6 @@ struct NetworkWidget: View {
 		switch viewModel.wifiState {
 		case .connected:
 			return Image(systemName: "wifi")
-				.foregroundColor(.foregroundOutside)
 		case .connecting:
 			return Image(systemName: "wifi")
 				.foregroundColor(.yellow)
@@ -54,28 +54,27 @@ struct NetworkWidget: View {
 		case .disabled:
 			return Image(systemName: "wifi.slash")
 				.foregroundColor(.red)
-		case .notSupported:
-			return Image(systemName: "wifi.exclamationmark")
-				.foregroundColor(.gray)
+		default:
+			return Image(systemName: "questionmark")
 		}
 	}
 
-	private var ethernetIcon: some View {
+	private var ethernetIcon: any View {
 		switch viewModel.ethernetState {
 		case .connected:
-			return Image(systemName: "network")
+			Image(systemName: "network")
 				.foregroundColor(.primary)
 		case .connectedWithoutInternet:
-			return Image(systemName: "network")
+			Image(systemName: "network")
 				.foregroundColor(.yellow)
 		case .connecting:
-			return Image(systemName: "network.slash")
+			Image(systemName: "network.slash")
 				.foregroundColor(.yellow)
 		case .disconnected:
-			return Image(systemName: "network.slash")
+			Image(systemName: "network.slash")
 				.foregroundColor(.red)
 		case .disabled, .notSupported:
-			return Image(systemName: "questionmark.circle")
+			Image(systemName: "questionmark.circle")
 				.foregroundColor(.gray)
 		}
 	}
