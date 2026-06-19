@@ -13,7 +13,6 @@ struct AppleMenuWidget: View {
 		MenuBarWidget(id: "applemenu", popup: { AppleMenuPopup() }) {
 			Image(systemName: "apple.logo")
 				.imageScale(.large)
-				.shadow(radius: 2)
 		}
 	}
 }

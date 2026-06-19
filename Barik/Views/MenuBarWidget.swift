@@ -21,6 +21,7 @@ struct MenuBarWidget<Content: View>: View {
 	
 	var body: some View {
 		self.content
+			.shadow(color: .foregroundShadowOutside, radius: 3)
 			.background(Color.black.opacity(0.001))
 			.contentShape(Rectangle())
 			.background(

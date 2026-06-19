@@ -25,49 +25,32 @@ struct TimeWidget: View {
 		.autoconnect()
 
 	var body: some View {
-		VStack(alignment: .trailing, spacing: 0) {
-			Text(formattedTime(pattern: format, from: currentTime))
-				.fontWeight(.semibold)
-			if let event = calendarManager.nextEvent, calendarShowEvents {
-				Text(eventText(for: event))
-					.opacity(0.8)
-					.font(.subheadline)
-			} else {
-				Text(eventText(for: nil))
-					.opacity(0.8)
-					.font(.subheadline)
+		MenuBarWidget(id: "calendar", popup: {CalendarPopup(
+			calendarManager: calendarManager,
+				configProvider: configProvider
+		)}) {
+			VStack(alignment: .leading, spacing: 0) {
+				Text(formattedTime(pattern: format, from: currentTime))
+					.fontWeight(.semibold)
+				if let event = calendarManager.nextEvent, calendarShowEvents {
+					Text(eventText(for: event))
+						.opacity(0.8)
+						.font(.subheadline)
+				} else {
+					Text(eventText(for: nil))
+						.opacity(0.8)
+						.font(.subheadline)
+				}
 			}
-		}
-		.font(.headline)
-		.foregroundStyle(.foregroundOutside)
-		.shadow(color: .foregroundShadowOutside, radius: 3)
-		.onReceive(timer) { date in
-			currentTime = date
-		}
-		.background(
-			GeometryReader { geometry in
-				Color.clear
-					.onAppear {
-						rect = geometry.frame(in: .global)
-					}
-					.onChange(of: geometry.frame(in: .global)) {
-						oldState,
-						newState in
-						rect = newState
-					}
+			.font(.headline)
+			.foregroundStyle(.foregroundOutside)
+			.onReceive(timer) { date in
+				currentTime = date
 			}
-		)
-		.experimentalConfiguration(cornerRadius: 15)
-		.frame(maxHeight: .infinity)
-		.background(.black.opacity(0.001))
-		.monospacedDigit()
-		.onTapGesture {
-			MenuBarPopup.show(rect: rect, id: "calendar") {
-				CalendarPopup(
-					calendarManager: calendarManager,
-					configProvider: configProvider
-				)
-			}
+			.experimentalConfiguration(cornerRadius: 15)
+			.frame(maxHeight: .infinity)
+			.background(.black.opacity(0.001))
+			.monospacedDigit()
 		}
 	}
 
