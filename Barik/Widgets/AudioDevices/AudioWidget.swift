@@ -14,29 +14,18 @@ struct AudioWidget: View {
 	@State private var widgetFrame: CGRect = .zero
 
 	var body: some View {
-		VStack {
+		MenuBarWidget(
+			id: "audiodevices",
+			popup: {
+				AudioPopup(configProvider: configProvider)
+			}
+		) {
 			Image(
 				systemName: audioManager.volume == 0 ? "speaker.slash.fill" : "speaker.wave.3.fill",
 				variableValue: Double(audioManager.volume ?? 1)
 			)
 			.bold()
 			.monospaced()
-		}
-		.background(
-			GeometryReader { geometry in
-				Color.clear
-					.onAppear {
-						widgetFrame = geometry.frame(in: .global)
-					}
-					.onChange(of: geometry.frame(in: .global)) { _, newFrame in
-						widgetFrame = newFrame
-					}
-			}
-		)
-		.onTapGesture {
-			MenuBarPopup.show(rect: widgetFrame, id: "audiodevices") {
-				AudioPopup(configProvider: configProvider)
-			}
 		}
 	}
 }

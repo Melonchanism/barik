@@ -6,32 +6,20 @@ struct NetworkWidget: View {
 	@State private var rect: CGRect = .zero
 
 	var body: some View {
-		HStack(spacing: 15) {
-			if viewModel.wifiState != .notSupported {
-				AnyView(wifiIcon)
+		MenuBarWidget(id: "network", popup: { NetworkPopup() }) {
+			HStack(spacing: 15) {
+				if viewModel.wifiState != .notSupported {
+					AnyView(wifiIcon)
+				}
+				if viewModel.ethernetState != .notSupported {
+					AnyView(ethernetIcon)
+				}
 			}
-			if viewModel.ethernetState != .notSupported {
-				AnyView(ethernetIcon)
-			}
+			.bold()
 		}
-		.bold()
-		.background(
-			GeometryReader { geometry in
-				Color.clear
-					.onAppear { rect = geometry.frame(in: .global) }
-					.onChange(of: geometry.frame(in: .global)) { _, newValue in
-						rect = newValue
-					}
-			}
-		)
-		.contentShape(Rectangle())
 		.font(.system(size: 15))
 		.experimentalConfiguration(cornerRadius: 15)
 		.frame(maxHeight: .infinity)
-		.background(.black.opacity(0.001))
-		.onTapGesture {
-			MenuBarPopup.show(rect: rect, id: "network") { NetworkPopup() }
-		}
 	}
 
 	private var wifiIcon: any View {

@@ -10,7 +10,7 @@ import SwiftUI
 struct AudioPopup: View {
 	var configProvider: ConfigProvider
 
-	@ObservedObject var audioManager = AudioManager.shared
+	@ObservedObject private var audioManager = AudioManager.shared
 
 	var body: some View {
 		HStack(spacing: 4) {

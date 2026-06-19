@@ -11,7 +11,7 @@ struct BatteryWidget: View {
 	@State private var rect: CGRect = CGRect()
 
 	var body: some View {
-		ZStack {
+		MenuBarWidget(id: "battery", popup: { BatteryPopup() }) {
 			ZStack(alignment: .leading) {
 				BatteryBodyView(mask: false)
 					.opacity(showPercentage ? 0.3 : 0.4)
@@ -35,25 +35,7 @@ struct BatteryWidget: View {
 				.foregroundStyle(.background)
 			}
 			.frame(width: 30, height: 10)
-			.background(
-				GeometryReader { geometry in
-					Color.clear
-						.onAppear {
-							rect = geometry.frame(in: .global)
-						}
-						.onChange(of: geometry.frame(in: .global)) {
-							oldState,
-							newState in
-							rect = newState
-						}
-				}
-			)
-		}
-		.experimentalConfiguration(cornerRadius: 15)
-		.frame(maxHeight: .infinity)
-		.background(Color.black.opacity(0.001))
-		.onTapGesture {
-			MenuBarPopup.show(rect: rect, id: "battery") { BatteryPopup() }
+			.experimentalConfiguration(cornerRadius: 15)
 		}
 
 	}
