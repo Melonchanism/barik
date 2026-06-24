@@ -17,7 +17,7 @@ struct ChangelogPopup: View {
 				.fontWeight(.medium)
 			Rectangle().fill(.white).opacity(0.2).frame(height: 0.5)
 			ScrollView {
-				InlineText(markdown: changelogText)
+				StructuredText(markdown: changelogText)
 					.padding(.horizontal, 5)
 					.padding(.vertical, 20)
 					.padding(.trailing, 15)
