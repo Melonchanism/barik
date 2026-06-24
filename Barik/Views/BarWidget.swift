@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct MenuBarWidget<Content: View>: View {
+struct BarWidget<Content: View>: View {
 	var id: String
 	var content: Content
 	var popup: any View

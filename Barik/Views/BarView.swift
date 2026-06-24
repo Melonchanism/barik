@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MenuBarView: View {
+struct BarView: View {
 	@ObservedObject var configManager = ConfigManager.shared
 
 	var body: some View {

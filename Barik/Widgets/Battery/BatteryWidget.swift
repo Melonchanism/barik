@@ -11,7 +11,7 @@ struct BatteryWidget: View {
 	@State private var rect: CGRect = CGRect()
 
 	var body: some View {
-		MenuBarWidget(id: "battery", popup: { BatteryPopup() }) {
+		BarWidget(id: "battery", popup: { BatteryPopup() }) {
 			ZStack(alignment: .leading) {
 				BatteryBodyView(mask: false)
 					.opacity(showPercentage ? 0.3 : 0.4)

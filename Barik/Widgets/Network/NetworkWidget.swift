@@ -6,7 +6,7 @@ struct NetworkWidget: View {
 	@State private var rect: CGRect = .zero
 
 	var body: some View {
-		MenuBarWidget(id: "network", popup: { NetworkPopup() }) {
+		BarWidget(id: "network", popup: { NetworkPopup() }) {
 			HStack(spacing: 15) {
 				if viewModel.wifiState != .notSupported {
 					AnyView(wifiIcon)

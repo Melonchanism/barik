@@ -14,7 +14,7 @@ struct AudioWidget: View {
 	@State private var widgetFrame: CGRect = .zero
 
 	var body: some View {
-		MenuBarWidget(
+		BarWidget(
 			id: "audiodevices",
 			popup: {
 				AudioPopup(configProvider: configProvider)

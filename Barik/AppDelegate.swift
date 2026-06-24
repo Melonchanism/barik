@@ -46,7 +46,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             &menuBarPanel,
             frame: screenFrame,
             level: Int(CGWindowLevelForKey(.backstopMenu)),
-            hostingRootView: AnyView(MenuBarView()))
+            hostingRootView: AnyView(BarView()))
     }
 
     /// Sets up an NSPanel with the provided parameters.

@@ -26,7 +26,7 @@ struct TimeWidget: View {
 		.autoconnect()
 
 	var body: some View {
-		MenuBarWidget(id: "calendar", popup: {CalendarPopup(
+		BarWidget(id: "calendar", popup: {CalendarPopup(
 			calendarManager: calendarManager,
 				configProvider: configProvider
 		)}) {
