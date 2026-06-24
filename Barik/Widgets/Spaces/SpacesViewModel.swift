@@ -8,15 +8,10 @@ import notify
 class SpacesViewModel: ObservableObject {
 	@Published var spaces: [any SpaceModel] = []
 	private var timer: Timer?
-	fileprivate var provider: (any SwitchableSpacesProvider)?
-	
-	private var handler: EventHandlerRef?
-	var typeList = [
-		EventTypeSpec(
-			eventClass: OSType(kEventClassApplication), eventKind: UInt32(kEventAppLaunched))
-	]
+	private var provider: (any SwitchableSpacesProvider)?
 
 	var token: Int32 = 0
+	var listenerID: UInt64 = 0
 
 	init() {
 		let runningApps = NSWorkspace.shared.runningApplications.compactMap {
@@ -39,11 +34,15 @@ class SpacesViewModel: ObservableObject {
 	private func startMonitoring() {
 		if let yabai = self.provider as? YabaiSpacesProvider {
 			yabai.registerListeners()
-			
-			InstallEventHandler(
-				GetApplicationEventTarget(), eventHandler, 1,
-				typeList, Unmanaged.passUnretained(self).toOpaque(), &handler
-			)
+
+			listenerID = EventManager.shared.addListener(for: .launched) { type, psn, pid in
+				let app = NSRunningApplication(processIdentifier: pid)
+				DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+					if app?.localizedName == "yabai" {
+						(self.provider as! YabaiSpacesProvider).registerListeners()
+					}
+				}
+			}
 		} else {
 			timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
 				self.loadSpaces()
@@ -56,6 +55,7 @@ class SpacesViewModel: ObservableObject {
 	}
 
 	private func stopMonitoring() {
+		EventManager.shared.removeListener(id: listenerID)
 		timer?.invalidate()
 		timer = nil
 	}
@@ -91,26 +91,6 @@ class SpacesViewModel: ObservableObject {
 			self.provider?.focusWindow(windowId: String(window.id))
 		}
 	}
-}
-
-func eventHandler(ref: EventHandlerCallRef?, event: EventRef?, context: UnsafeMutableRawPointer?)
-	-> OSStatus
-{
-	let model = Unmanaged<SpacesViewModel>.fromOpaque(context!).takeUnretainedValue()
-	var psn = ProcessSerialNumber()
-	guard
-		GetEventParameter(
-			event, EventParamName(kEventParamProcessID), typeProcessSerialNumber, nil,
-			MemoryLayout<ProcessSerialNumber>.stride, nil, &psn
-		) == noErr
-	else { return -1 }
-	var pid = pid_t()
-	og_GetProcessPID(&psn, &pid)
-	let app = NSRunningApplication(processIdentifier: pid)
-	DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-		if app?.localizedName == "yabai" { (model.provider as! YabaiSpacesProvider).registerListeners() }
-	}
-	return noErr
 }
 
 class IconCache {
