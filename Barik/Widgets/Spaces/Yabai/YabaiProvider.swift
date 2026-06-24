@@ -5,10 +5,10 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	typealias SpaceType = YabaiSpace
 
 	@discardableResult
-	private func runYabaiCommand(arguments: [String]) -> Data? {
+	private func runYabaiCommand(_ arguments: String...) -> Data? {
 		var arguments = arguments
 		if arguments.first == "-m" { arguments.removeFirst() }
-		
+
 		let fd = socket(AF_UNIX, SOCK_STREAM, 0)
 		guard fd >= 0 else {
 			perror("socket")
@@ -76,8 +76,7 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	}
 
 	private func fetchSpaces() -> [YabaiSpace]? {
-		guard
-			let data = runYabaiCommand(arguments: ["-m", "query", "--spaces"])
+		guard let data = runYabaiCommand("-m", "query", "--spaces")
 		else {
 			return nil
 		}
@@ -92,11 +91,8 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	}
 
 	private func fetchWindows() -> [YabaiWindow]? {
-		guard
-			let data = runYabaiCommand(arguments: ["-m", "query", "--windows"])
-		else {
-			return nil
-		}
+		guard let data = runYabaiCommand("-m", "query", "--windows")
+		else { return nil }
 		let decoder = JSONDecoder()
 		do {
 			let windows = try decoder.decode([YabaiWindow].self, from: data)
@@ -135,52 +131,40 @@ class YabaiSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	}
 
 	func focusSpace(spaceId: String, needWindowFocus: Bool) {
-		runYabaiCommand(arguments: ["-m", "space", "--focus", spaceId])
-		if !needWindowFocus { return }
+		runYabaiCommand("-m", "space", "--focus", spaceId)
+		guard needWindowFocus else { return }
 
 		DispatchQueue.global(qos: .userInitiated).asyncAfter(
 			deadline: .now() + 0.1
 		) {
-			if let spaces = self.getSpacesWithWindows() {
-				if let space = spaces.first(where: { $0.id == Int(spaceId) }) {
-					let hasFocused = space.windows.contains { $0.isFocused }
-					if !hasFocused, let firstWindow = space.windows.first {
-						self.runYabaiCommand(arguments: [
-							"-m", "window", "--focus", String(firstWindow.id),
-						])
-					}
-				}
+			guard let space = self.getSpaces()?.first(where: { $0.id == spaceId }) else { return }
+			let hasFocused = space.windows.contains { $0.isFocused }
+			if !hasFocused, let firstWindow = space.windows.first {
+				self.runYabaiCommand("-m", "window", "--focus", String(firstWindow.id))
 			}
 		}
 	}
 
 	func focusWindow(windowId: String) {
-		runYabaiCommand(arguments: ["-m", "window", "--focus", windowId])
+		runYabaiCommand("-m", "window", "--focus", windowId)
 	}
 
 	func registerListeners() {
-		if String(
-			data: runYabaiCommand(arguments: ["-m", "signal", "--list"]) ?? Data(),
-			encoding: .utf8
-		)?
-			.contains("Barik") ?? true
-		{
-			return
-		}
 		DispatchQueue.global(qos: .userInitiated).async {
+			if String(
+				data: self.runYabaiCommand("-m", "signal", "--list") ?? Data(),
+				encoding: .utf8
+			)?
+			.contains("Barik") ?? true {
+				return
+			}
 			for event in [
 				"window_focused", "window_minimized", "window_destroyed", "window_title_changed",
 				"space_changed",
 			] {
 				self.runYabaiCommand(
-					arguments: [
-						"-m",
-						"signal",
-						"--add",
-						"event=\(event)",
-						"action=notifyutil -p WMUpdate",
-						"label=\(event)Barik",
-					]
+					"-m", "signal", "--add", "event=\(event)", "action=notifyutil -p WMUpdate",
+					"label=\(event)Barik"
 				)
 			}
 		}

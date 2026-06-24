@@ -45,7 +45,6 @@ struct YabaiWindow: WindowModel {
 }
 
 struct YabaiSpace: SpaceModel {
-	typealias WindowType = YabaiWindow
 	let id: String
 	var isFocused: Bool
 	var windows: [YabaiWindow] = []
