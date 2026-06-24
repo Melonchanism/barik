@@ -8,6 +8,7 @@
 import Cocoa
 import CoreAudio
 import CoreServices
+import Combine
 
 // MARK: Audio Device
 class AudioDevice: Equatable, Hashable, Identifiable {

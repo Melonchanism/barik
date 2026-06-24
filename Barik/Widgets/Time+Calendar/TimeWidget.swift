@@ -1,5 +1,6 @@
 import EventKit
 import SwiftUI
+import Combine
 
 struct TimeWidget: View {
 	@EnvironmentObject var configProvider: ConfigProvider

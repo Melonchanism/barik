@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 final class AppUpdater: ObservableObject {
 	// Published properties to notify the UI

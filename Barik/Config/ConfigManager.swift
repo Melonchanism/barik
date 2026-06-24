@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import TOMLDecoder
+import Combine
 
 final class ConfigManager: ObservableObject {
 	static let shared = ConfigManager()
