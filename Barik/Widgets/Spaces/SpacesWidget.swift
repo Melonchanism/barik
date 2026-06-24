@@ -10,12 +10,12 @@ struct SpacesWidget: View {
 
 	var body: some View {
 		HStack(spacing: foregroundHeight < 30 ? 0 : 8) {
-			ForEach(viewModel.spaces) { space in
+			ForEach(viewModel.spaces, id: \.id) { space in
 				SpaceView(space: space)
 			}
 		}
 		.experimentalConfiguration(horizontalPadding: 5, cornerRadius: 10)
-		.animation(.smooth(duration: 0.3), value: viewModel.spaces)
+		.animation(.smooth(duration: 0.3), value: viewModel.spaces.description)
 		.foregroundStyle(Color.foreground)
 		.environmentObject(viewModel)
 	}
@@ -36,7 +36,7 @@ private struct SpaceView: View {
 
 	var showKey: Bool { spaceConfig["show-key"]?.boolValue ?? true }
 
-	let space: AnySpace
+	let space: any SpaceModel
 
 	@State var isHovered = false
 
@@ -53,7 +53,7 @@ private struct SpaceView: View {
 			}
 			if !space.windows.isEmpty {
 				HStack(spacing: 2) {
-					ForEach(space.windows) { window in
+					ForEach(space.windows, id: \.id) { window in
 						WindowView(window: window, space: space)
 					}
 				}
@@ -74,9 +74,7 @@ private struct SpaceView: View {
 			viewModel.switchToSpace(space, needWindowFocus: true)
 		}
 		.animation(.smooth, value: isHovered)
-		.onHover { value in
-			isHovered = value
-		}
+		.onHover { isHovered = $0 }
 	}
 }
 
@@ -99,8 +97,8 @@ private struct WindowView: View {
 		}).map { $0.stringValue! } ?? []
 	}
 
-	let window: AnyWindow
-	let space: AnySpace
+	let window: any WindowModel
+	let space: any SpaceModel
 
 	@State var isHovered = false
 

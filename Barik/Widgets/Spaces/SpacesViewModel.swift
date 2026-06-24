@@ -6,7 +6,7 @@ import Foundation
 import notify
 
 class SpacesViewModel: ObservableObject {
-	@Published var spaces: [AnySpace] = []
+	@Published var spaces: [any SpaceModel] = []
 	private var timer: Timer?
 	fileprivate var provider: (any SwitchableSpacesProvider)?
 	
@@ -70,14 +70,14 @@ class SpacesViewModel: ObservableObject {
 				}
 				return
 			}
-			let sortedSpaces = spaces.map { AnySpace($0) }.sorted { $0.id < $1.id }
+			let sortedSpaces = spaces.sorted { $0.id < $1.id }
 			DispatchQueue.main.async {
 				self.spaces = sortedSpaces
 			}
 		}
 	}
 
-	func switchToSpace(_ space: AnySpace, needWindowFocus: Bool = false) {
+	func switchToSpace(_ space: any SpaceModel, needWindowFocus: Bool = false) {
 		DispatchQueue.global(qos: .userInteractive).async {
 			self.provider?.focusSpace(
 				spaceId: space.id,
@@ -86,7 +86,7 @@ class SpacesViewModel: ObservableObject {
 		}
 	}
 
-	func switchToWindow(_ window: AnyWindow) {
+	func switchToWindow(_ window: any WindowModel) {
 		DispatchQueue.global(qos: .userInteractive).async {
 			self.provider?.focusWindow(windowId: String(window.id))
 		}
