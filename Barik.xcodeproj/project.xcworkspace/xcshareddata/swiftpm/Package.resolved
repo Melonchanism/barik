@@ -1,19 +1,19 @@
 {
-  "originHash" : "0f42863e6b41e5b28299558673a4d09dbd2f989cc2fb9260a93be839e36362c2",
+  "originHash" : "bae5e5c179f2b0d7d451981ecc2fecedda3535aa7471e55118691fd0b7ca9005",
   "pins" : [
     {
-      "identity" : "skylightwindow",
+      "identity" : "axswift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Lakr233/SkyLightWindow",
+      "location" : "https://github.com/tmandry/AXSwift",
       "state" : {
-        "revision" : "b7bd99f62a0673a99bed4bfd31098ca1dcdd10eb",
-        "version" : "1.0.0"
+        "revision" : "81dcc36aced905d6464cc25e35f8d13184bbf21c",
+        "version" : "0.3.2"
       }
     },
     {
       "identity" : "smoothgradient",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/raymondjavaxx/SmoothGradient.git",
+      "location" : "https://github.com/raymondjavaxx/SmoothGradient",
       "state" : {
         "revision" : "77ac160533ce312f92b566754731e07b20315a41",
         "version" : "1.0.1"
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/textual",
       "state" : {
-        "revision" : "5b06b811c0f5313b6b84bbef98c635a630638c38",
-        "version" : "0.3.1"
+        "revision" : "01b51875a5406eefc95f52a058cb059e7bc94dc4",
+        "version" : "0.5.0"
       }
     },
     {

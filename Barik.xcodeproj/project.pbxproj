@@ -7,39 +7,84 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		031AE4FD2FD25518004F8E49 /* .swift-format in Sources */ = {isa = PBXBuildFile; fileRef = 031AE4FC2FD25516004F8E49 /* .swift-format */; };
-		0371D9ED2FD8C2EB00D2E9E7 /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */; };
-		037742812FE3421900F4CBD6 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037742802FE3421900F4CBD6 /* ApplicationServices.framework */; };
-		037742832FE3421E00F4CBD6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037742822FE3421E00F4CBD6 /* Carbon.framework */; };
-		03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */; };
-		03BD03182FDB70C100C1D04A /* login.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03BD02982FDB704E00C1D04A /* login.framework */; };
-		03E72B9A2FD34FD500B230DB /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B992FD34FD500B230DB /* Textual */; };
-		03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = 03E72B9C2FD34FE400B230DB /* TOMLDecoder */; };
+		03A74F482FEC4B2D00440B02 /* AXSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 03A74F472FEC4B2D00440B02 /* AXSwift */; };
+		03A74F4B2FEC4B3D00440B02 /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 03A74F4A2FEC4B3D00440B02 /* SmoothGradient */; };
+		03A74F4E2FEC4B4C00440B02 /* TOMLDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = 03A74F4D2FEC4B4C00440B02 /* TOMLDecoder */; };
+		03A74F512FEC4B6C00440B02 /* Textual in Frameworks */ = {isa = PBXBuildFile; productRef = 03A74F502FEC4B6C00440B02 /* Textual */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		031AE4FC2FD25516004F8E49 /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-format"; sourceTree = "<group>"; };
-		037742802FE3421900F4CBD6 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		037742822FE3421E00F4CBD6 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		03BD02982FDB704E00C1D04A /* login.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = login.framework; path = ../../../../../System/Library/PrivateFrameworks/login.framework; sourceTree = "<group>"; };
-		C10E2F8A2D41235900AC957C /* Barik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Barik.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03A74EE32FEC49CA00440B02 /* Barik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Barik.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03A74F452FEC4A5D00440B02 /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".swift-format"; sourceTree = "<group>"; };
+		03A74F532FEC4BFB00440B02 /* login.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = login.framework; path = ../../../../System/Library/PrivateFrameworks/login.framework; sourceTree = "<group>"; };
+		03A74F8B2FEC4CAB00440B02 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C1BB4B422D526B5C00A1F46E /* Exceptions for "Barik" folder in "Barik" target */ = {
+		03A74F882FEC4C6500440B02 /* Exceptions for "Barik" folder in "Barik" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				AppDelegate.swift,
+				BarikApp.swift,
+				Config/ConfigManager.swift,
+				Config/ConfigModels.swift,
+				Config/NewConfig.swift,
+				Constants.swift,
+				MenuBarPopup/MenuBarPopup.swift,
+				MenuBarPopup/MenuBarPopupVariantView.swift,
+				MenuBarPopup/MenuBarPopupView.swift,
+				Resources/Assets.xcassets,
+				Resources/Localizable.xcstrings,
+				Utils/ExperimentalConfigurationModifier.swift,
+				Utils/ImageCache.swift,
+				Utils/VersionChecker.swift,
+				Views/AppUpdater.swift,
+				Views/BackgroundView.swift,
+				Views/MenuBarView.swift,
+				Views/MenuBarWidget.swift,
+				Widgets/AppleMenu/AppleMenuWidget.swift,
+				Widgets/AudioDevices/AudioManager.swift,
+				Widgets/AudioDevices/AudioPopup.swift,
+				Widgets/AudioDevices/AudioWidget.swift,
+				Widgets/Battery/BatteryManager.swift,
+				Widgets/Battery/BatteryPopup.swift,
+				Widgets/Battery/BatteryWidget.swift,
+				Widgets/MenuBar/MenuBarManager.swift,
+				Widgets/Network/NetworkPopup.swift,
+				Widgets/Network/NetworkViewModel.swift,
+				Widgets/Network/NetworkWidget.swift,
+				Widgets/NowPlaying/NowPlayingManager.swift,
+				Widgets/NowPlaying/NowPlayingPopup.swift,
+				Widgets/NowPlaying/NowPlayingWidget.swift,
+				"Widgets/NowPlaying/Providers/Apple Music/Music.swift",
+				"Widgets/NowPlaying/Providers/Apple Music/MusicProvider.swift",
+				Widgets/NowPlaying/Providers/Protocols.swift,
+				Widgets/NowPlaying/Providers/Spotify/Spotify.swift,
+				Widgets/NowPlaying/Providers/Spotify/SpotifyProvider.swift,
+				Widgets/Spaces/Aerospace/AerospaceModels.swift,
+				Widgets/Spaces/Aerospace/AerospaceProvider.swift,
+				Widgets/Spaces/SpacesModels.swift,
+				Widgets/Spaces/SpacesViewModel.swift,
+				Widgets/Spaces/SpacesWidget.swift,
+				Widgets/Spaces/Yabai/YabaiModels.swift,
+				Widgets/Spaces/Yabai/YabaiProvider.swift,
+				Widgets/SystemBanner/ChangelogBannerWidget.swift,
+				Widgets/SystemBanner/ChangelogPopup.swift,
+				Widgets/SystemBanner/SystemBannerWidget.swift,
+				Widgets/SystemBanner/UpdateBannerWidget.swift,
+				"Widgets/Time+Calendar/CalendarManager.swift",
+				"Widgets/Time+Calendar/CalendarPopup.swift",
+				"Widgets/Time+Calendar/TimeWidget.swift",
 			);
-			target = C10E2F892D41235900AC957C /* Barik */;
+			target = 03A74EE22FEC49CA00440B02 /* Barik */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C1BB4B332D526B5C00A1F46E /* Barik */ = {
+		03A74F432FEC4A0F00440B02 /* Barik */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C1BB4B422D526B5C00A1F46E /* Exceptions for "Barik" folder in "Barik" target */,
+				03A74F882FEC4C6500440B02 /* Exceptions for "Barik" folder in "Barik" target */,
 			);
 			path = Barik;
 			sourceTree = "<group>";
@@ -47,143 +92,115 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C10E2F872D41235900AC957C /* Frameworks */ = {
+		03A74EE02FEC49CA00440B02 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				037742832FE3421E00F4CBD6 /* Carbon.framework in Frameworks */,
-				03E72B9D2FD34FE400B230DB /* TOMLDecoder in Frameworks */,
-				037742812FE3421900F4CBD6 /* ApplicationServices.framework in Frameworks */,
-				03BD03182FDB70C100C1D04A /* login.framework in Frameworks */,
-				03E72B9A2FD34FD500B230DB /* Textual in Frameworks */,
-				0371D9ED2FD8C2EB00D2E9E7 /* SmoothGradient in Frameworks */,
-				03AAD0082FD0C0E7002CB2F0 /* SkyLightWindow in Frameworks */,
+				03A74F4E2FEC4B4C00440B02 /* TOMLDecoder in Frameworks */,
+				03A74F4B2FEC4B3D00440B02 /* SmoothGradient in Frameworks */,
+				03A74F512FEC4B6C00440B02 /* Textual in Frameworks */,
+				03A74F482FEC4B2D00440B02 /* AXSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03BD02972FDB704E00C1D04A /* Frameworks */ = {
+		03A74EDA2FEC49CA00440B02 = {
 			isa = PBXGroup;
 			children = (
-				037742822FE3421E00F4CBD6 /* Carbon.framework */,
-				037742802FE3421900F4CBD6 /* ApplicationServices.framework */,
-				03BD02982FDB704E00C1D04A /* login.framework */,
+				03A74F452FEC4A5D00440B02 /* .swift-format */,
+				03A74F432FEC4A0F00440B02 /* Barik */,
+				03A74F522FEC4BFB00440B02 /* Frameworks */,
+				03A74EE42FEC49CA00440B02 /* Products */,
 			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C10E2F812D41235900AC957C = {
+		03A74EE42FEC49CA00440B02 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				031AE4FC2FD25516004F8E49 /* .swift-format */,
-				C10E2F8B2D41235900AC957C /* Products */,
-				C1BB4B332D526B5C00A1F46E /* Barik */,
-				03BD02972FDB704E00C1D04A /* Frameworks */,
-			);
-			indentWidth = 2;
-			sourceTree = "<group>";
-			tabWidth = 2;
-			usesTabs = 1;
-		};
-		C10E2F8B2D41235900AC957C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C10E2F8A2D41235900AC957C /* Barik.app */,
+				03A74EE32FEC49CA00440B02 /* Barik.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		03A74F522FEC4BFB00440B02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				03A74F8B2FEC4CAB00440B02 /* Network.framework */,
+				03A74F532FEC4BFB00440B02 /* login.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C10E2F892D41235900AC957C /* Barik */ = {
+		03A74EE22FEC49CA00440B02 /* Barik */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C10E2FAF2D41235B00AC957C /* Build configuration list for PBXNativeTarget "Barik" */;
+			buildConfigurationList = 03A74EEE2FEC49CB00440B02 /* Build configuration list for PBXNativeTarget "Barik" */;
 			buildPhases = (
-				C10E2F862D41235900AC957C /* Sources */,
-				C10E2F872D41235900AC957C /* Frameworks */,
-				C10E2F882D41235900AC957C /* Resources */,
+				03A74EDF2FEC49CA00440B02 /* Sources */,
+				03A74EE02FEC49CA00440B02 /* Frameworks */,
+				03A74EE12FEC49CA00440B02 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				C1BB4B332D526B5C00A1F46E /* Barik */,
-			);
 			name = Barik;
 			packageProductDependencies = (
-				03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */,
-				03E72B992FD34FD500B230DB /* Textual */,
-				03E72B9C2FD34FE400B230DB /* TOMLDecoder */,
-				0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */,
+				03A74F472FEC4B2D00440B02 /* AXSwift */,
+				03A74F4A2FEC4B3D00440B02 /* SmoothGradient */,
+				03A74F4D2FEC4B4C00440B02 /* TOMLDecoder */,
+				03A74F502FEC4B6C00440B02 /* Textual */,
 			);
 			productName = Barik;
-			productReference = C10E2F8A2D41235900AC957C /* Barik.app */;
+			productReference = 03A74EE32FEC49CA00440B02 /* Barik.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C10E2F822D41235900AC957C /* Project object */ = {
+		03A74EDB2FEC49CA00440B02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					C10E2F892D41235900AC957C = {
-						CreatedOnToolsVersion = 16.2;
+					03A74EE22FEC49CA00440B02 = {
+						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
-			buildConfigurationList = C10E2F852D41235900AC957C /* Build configuration list for PBXProject "Barik" */;
+			buildConfigurationList = 03A74EDE2FEC49CA00440B02 /* Build configuration list for PBXProject "Barik" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				ru,
-				es,
-				"zh-Hans",
-				fr,
-				de,
-				it,
-				"pt-PT",
-				"pt-BR",
-				ja,
-				ko,
-				ar,
-				nl,
-				pl,
-				tr,
-				uk,
-				el,
-				sv,
-				he,
-				hu,
+				Base,
 			);
-			mainGroup = C10E2F812D41235900AC957C;
+			mainGroup = 03A74EDA2FEC49CA00440B02;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */,
-				03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */,
-				03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */,
-				0371D9EB2FD8C2EB00D2E9E7 /* XCRemoteSwiftPackageReference "SmoothGradient" */,
+				03A74F462FEC4B2D00440B02 /* XCRemoteSwiftPackageReference "AXSwift" */,
+				03A74F492FEC4B3D00440B02 /* XCRemoteSwiftPackageReference "SmoothGradient" */,
+				03A74F4C2FEC4B4C00440B02 /* XCRemoteSwiftPackageReference "TOMLDecoder" */,
+				03A74F4F2FEC4B6C00440B02 /* XCRemoteSwiftPackageReference "textual" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = C10E2F8B2D41235900AC957C /* Products */;
+			productRefGroup = 03A74EE42FEC49CA00440B02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C10E2F892D41235900AC957C /* Barik */,
+				03A74EE22FEC49CA00440B02 /* Barik */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C10E2F882D41235900AC957C /* Resources */ = {
+		03A74EE12FEC49CA00440B02 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -193,18 +210,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C10E2F862D41235900AC957C /* Sources */ = {
+		03A74EDF2FEC49CA00440B02 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				031AE4FD2FD25518004F8E49 /* .swift-format in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C10E2FAD2D41235B00AC957C /* Debug */ = {
+		03A74EEC2FEC49CB00440B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -239,6 +255,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MP26D4WTMR;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -257,18 +274,17 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MACOSX_DEPLOYMENT_TARGET = 15.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		C10E2FAE2D41235B00AC957C /* Release */ = {
+		03A74EED2FEC49CB00440B02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -303,6 +319,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = MP26D4WTMR;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -315,116 +332,103 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MACOSX_DEPLOYMENT_TARGET = 15.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
-		C10E2FB02D41235B00AC957C /* Debug */ = {
+		03A74EEF2FEC49CB00440B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Barik/Barik.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MP26D4WTMR;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Barik/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Barik;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need this permission for control of third-party media players via an interactive widget";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "We need this permission for displaying calendar events";
-				INFOPLIST_KEY_NSHumanReadableCopyright = Pansy;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses location permission for display WiFi network name";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = Pansy.Barik;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.syllogistic.Barik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
-				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
-				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = Barik/Utils/BridgingHeader.h;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 			};
 			name = Debug;
 		};
-		C10E2FB12D41235B00AC957C /* Release */ = {
+		03A74EF02FEC49CB00440B02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Barik/Barik.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MP26D4WTMR;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Barik/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Barik;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need this permission for control of third-party media players via an interactive widget";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "We need this permission for displaying calendar events";
-				INFOPLIST_KEY_NSHumanReadableCopyright = Pansy;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses location permission for display WiFi network name";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = Pansy.Barik;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.syllogistic.Barik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
-				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
-				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = Barik/Utils/BridgingHeader.h;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C10E2F852D41235900AC957C /* Build configuration list for PBXProject "Barik" */ = {
+		03A74EDE2FEC49CA00440B02 /* Build configuration list for PBXProject "Barik" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C10E2FAD2D41235B00AC957C /* Debug */,
-				C10E2FAE2D41235B00AC957C /* Release */,
+				03A74EEC2FEC49CB00440B02 /* Debug */,
+				03A74EED2FEC49CB00440B02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C10E2FAF2D41235B00AC957C /* Build configuration list for PBXNativeTarget "Barik" */ = {
+		03A74EEE2FEC49CB00440B02 /* Build configuration list for PBXNativeTarget "Barik" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C10E2FB02D41235B00AC957C /* Debug */,
-				C10E2FB12D41235B00AC957C /* Release */,
+				03A74EEF2FEC49CB00440B02 /* Debug */,
+				03A74EF02FEC49CB00440B02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -432,31 +436,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0371D9EB2FD8C2EB00D2E9E7 /* XCRemoteSwiftPackageReference "SmoothGradient" */ = {
+		03A74F462FEC4B2D00440B02 /* XCRemoteSwiftPackageReference "AXSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/raymondjavaxx/SmoothGradient.git";
+			repositoryURL = "https://github.com/tmandry/AXSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.2;
+			};
+		};
+		03A74F492FEC4B3D00440B02 /* XCRemoteSwiftPackageReference "SmoothGradient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raymondjavaxx/SmoothGradient";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.1;
 			};
 		};
-		03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Lakr233/SkyLightWindow";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/gonzalezreal/textual";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.1;
-			};
-		};
-		03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */ = {
+		03A74F4C2FEC4B4C00440B02 /* XCRemoteSwiftPackageReference "TOMLDecoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dduan/TOMLDecoder";
 			requirement = {
@@ -464,30 +460,38 @@
 				version = 0.3.3;
 			};
 		};
+		03A74F4F2FEC4B6C00440B02 /* XCRemoteSwiftPackageReference "textual" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/textual";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0371D9EC2FD8C2EB00D2E9E7 /* SmoothGradient */ = {
+		03A74F472FEC4B2D00440B02 /* AXSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0371D9EB2FD8C2EB00D2E9E7 /* XCRemoteSwiftPackageReference "SmoothGradient" */;
+			package = 03A74F462FEC4B2D00440B02 /* XCRemoteSwiftPackageReference "AXSwift" */;
+			productName = AXSwift;
+		};
+		03A74F4A2FEC4B3D00440B02 /* SmoothGradient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 03A74F492FEC4B3D00440B02 /* XCRemoteSwiftPackageReference "SmoothGradient" */;
 			productName = SmoothGradient;
 		};
-		03AAD0072FD0C0E7002CB2F0 /* SkyLightWindow */ = {
+		03A74F4D2FEC4B4C00440B02 /* TOMLDecoder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 03AAD0062FD0C0E7002CB2F0 /* XCRemoteSwiftPackageReference "SkyLightWindow" */;
-			productName = SkyLightWindow;
-		};
-		03E72B992FD34FD500B230DB /* Textual */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 03E72B982FD34FD500B230DB /* XCRemoteSwiftPackageReference "textual" */;
-			productName = Textual;
-		};
-		03E72B9C2FD34FE400B230DB /* TOMLDecoder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 03E72B9B2FD34FE400B230DB /* XCRemoteSwiftPackageReference "TOMLDecoder" */;
+			package = 03A74F4C2FEC4B4C00440B02 /* XCRemoteSwiftPackageReference "TOMLDecoder" */;
 			productName = TOMLDecoder;
+		};
+		03A74F502FEC4B6C00440B02 /* Textual */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 03A74F4F2FEC4B6C00440B02 /* XCRemoteSwiftPackageReference "textual" */;
+			productName = Textual;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = C10E2F822D41235900AC957C /* Project object */;
+	rootObject = 03A74EDB2FEC49CA00440B02 /* Project object */;
 }

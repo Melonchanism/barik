@@ -12,16 +12,16 @@ struct AppleMenuWidget: View {
 	var body: some View {
 		Menu {
 			Button("Lock Screen", systemImage: "lock.fill") {
-				SACLockScreenImmediate()
+				_ = Login.shared.SACLockScreenImmediate()
 			}
 			Button("Screen Saver", systemImage: "photo.fill") {
-				SACScreenSaverStartNow(0, 0, 0)
+				_ = Login.shared.SACScreenSaverStartNow(0, 0, 0)
 			}
 			Button("Login Window", systemImage: "person.circle.fill") {
-				SACSwitchToLoginWindow()
+				_ = Login.shared.SACSwitchToLoginWindow()
 			}
 			Button("Log Out", systemImage: "rectangle.portrait.and.arrow.right.fill") {
-				SACLOStartLogout(0, 0, 0, 0)
+				_ = Login.shared.SACLOStartLogout(0, 0, 0, 0)
 			}
 
 			Divider()
@@ -45,6 +45,42 @@ struct AppleMenuWidget: View {
 		.scaleEffect(1.25)
 		.fixedSize()
 		.background(Color.black.opacity(0.001))
+	}
+}
+
+class Login {
+	static let shared = Login()
+
+	typealias F_SACLockScreenImmediate =  @convention(c) () -> Int32
+	typealias F_SACScreenSaverStartNow = @convention(c) (Int32, Int32, Int32) -> Int32
+	typealias F_SACLOStartLogout = @convention(c) (Int32, Int32, Int32, Int32) -> Int32
+	typealias F_SACSwitchToLoginWindow = @convention(c) () -> Int32
+
+	let SACLockScreenImmediate: F_SACLockScreenImmediate
+	let SACScreenSaverStartNow: F_SACScreenSaverStartNow
+	let SACLOStartLogout: F_SACLOStartLogout
+	let SACSwitchToLoginWindow: F_SACSwitchToLoginWindow
+
+	init() {
+		let handle = dlopen(
+			"/System/Library/PrivateFrameworks/login.framework/Versions/A/login", RTLD_NOW
+		)
+		SACLockScreenImmediate = unsafeBitCast(
+			dlsym(handle, "SACLockScreenImmediate"),
+			to: F_SACLockScreenImmediate.self
+		)
+		SACScreenSaverStartNow = unsafeBitCast(
+			dlsym(handle, "SACScreenSaverStartNow"),
+			to: F_SACScreenSaverStartNow.self
+		)
+		SACLOStartLogout = unsafeBitCast(
+			dlsym(handle, "SACLOStartLogout"),
+			to: F_SACLOStartLogout.self
+		)
+		SACSwitchToLoginWindow = unsafeBitCast(
+			dlsym(handle, "SACSwitchToLoginWindow"),
+			to: F_SACSwitchToLoginWindow.self
+		)
 	}
 }
 
