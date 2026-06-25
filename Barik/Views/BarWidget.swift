@@ -13,7 +13,7 @@ struct BarWidget<Content: View>: View {
 	
 	@State var rect: CGRect = .zero
 	
-	init(id: String, popup: () -> any View, content: @escaping () -> Content) {
+	init(id: String, popup: () -> any View, @ViewBuilder content: () -> Content) {
 		self.content = content()
 		self.popup = popup()
 		self.id = id
