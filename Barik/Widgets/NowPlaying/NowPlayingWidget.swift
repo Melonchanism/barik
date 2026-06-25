@@ -18,7 +18,7 @@ struct NowPlayingWidget: View {
 	}
 
 	var body: some View {
-		ZStack(alignment: .leading) {
+		BarWidget(id: "nowplaying", popup: { NowPlayingPopup(configProvider: configProvider) }) {
 			if let song = playingManager.nowPlaying, playingManager.state != .stopped {
 				HStack(spacing: 8) {
 					AlbumArtView(song: song)
@@ -40,21 +40,8 @@ struct NowPlayingWidget: View {
 				.overlay(
 					Capsule().stroke(Color.noActive, lineWidth: 1)
 				)
-				.onTapGesture {
-					MenuBarPopup.show(rect: widgetFrame, id: "nowplaying") {
-						NowPlayingPopup(configProvider: configProvider)
-					}
-				}
 			}
 		}
-		.background(
-			GeometryReader { geometry in
-				Color.clear
-					.onChange(of: geometry.frame(in: .global), initial: true) { _, newFrame in
-						widgetFrame = newFrame
-					}
-			}
-		)
 	}
 }
 
