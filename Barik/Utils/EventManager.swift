@@ -31,6 +31,7 @@ class EventManager: ObservableObject {
 		)
 	}
 
+	@discardableResult
 	func addListener(for type: EventType, callback: @escaping Listener.Callback) -> UInt64 {
 		var rng = SystemRandomNumberGenerator()
 		var id = rng.next(upperBound: UInt64(32))
@@ -40,6 +41,12 @@ class EventManager: ObservableObject {
 
 	func removeListener(id: UInt64) {
 		listeners.removeValue(forKey: id)
+	}
+	
+	func removeListeners(ids: some Sequence<UInt64>) {
+		for id in ids {
+			removeListener(id: id)
+		}
 	}
 }
 
