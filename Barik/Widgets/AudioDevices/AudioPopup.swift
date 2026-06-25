@@ -47,8 +47,10 @@ struct AudioFaderView: View {
 	@State private var offset: CGFloat = 100
 	@State private var preOffset: CGFloat = 0
 	@State private var dragging: Bool = false
-	
-	private var displayedVolume: Int { dragging ? Int((-offset / 200 + 0.5) * 100) : Int((audioManager.volume ?? 0) * 100) }
+
+	private var displayedVolume: Int {
+		dragging ? Int((-offset / 200 + 0.5) * 100) : Int((audioManager.volume ?? 0) * 100)
+	}
 
 	var body: some View {
 		VStack(spacing: 12) {

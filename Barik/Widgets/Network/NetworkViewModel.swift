@@ -21,10 +21,8 @@ enum WifiSignalStrength: String {
 }
 
 /// Unified view model for monitoring network and Wi‑Fi status.
-final class NetworkStatusViewModel: NSObject, ObservableObject,
-	CLLocationManagerDelegate
-{
-	
+final class NetworkStatusViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+
 	static var shared = NetworkStatusViewModel()
 
 	// States for Wi‑Fi and Ethernet obtained via NWPathMonitor.

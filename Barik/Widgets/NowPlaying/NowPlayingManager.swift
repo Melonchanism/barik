@@ -44,7 +44,7 @@ struct NowPlayingSong: Equatable, Identifiable {
 		self.albumArt = albumArt
 		self.duration = duration
 	}
-	
+
 	static func == (lhs: NowPlayingSong, rhs: NowPlayingSong) -> Bool {
 		return lhs.id == rhs.id
 	}
@@ -55,7 +55,7 @@ struct NowPlayingSong: Equatable, Identifiable {
 /// An observable manager that periodically updates the now playing song.
 class NowPlayingManager: ObservableObject {
 	static var shared = NowPlayingManager()
-	
+
 	private var providers: [NowPlayingProvider] {
 		var providers: [NowPlayingProvider?] = [MusicProvider(), SpotifyProvider()]
 		return providers.filter { $0 != nil } as! [NowPlayingProvider]
@@ -92,7 +92,7 @@ class NowPlayingManager: ObservableObject {
 		DispatchQueue.main.async { [self] in
 			state = activeProvider?.state ?? .stopped
 			guard state != .stopped else { return }
-			if (nowPlaying != activeProvider?.nowPlaying) { nowPlaying = activeProvider?.nowPlaying }
+			if nowPlaying != activeProvider?.nowPlaying { nowPlaying = activeProvider?.nowPlaying }
 			position = activeProvider?.position ?? 0
 		}
 	}

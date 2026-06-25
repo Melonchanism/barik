@@ -126,7 +126,9 @@ struct NowPlayingHorizontalPopup: View {
 					.frame(width: 60, height: 60)
 					.scaleEffect(playingManager.state == .paused ? 0.9 : 1)
 					.overlay(playingManager.state == .paused ? Color.black.opacity(0.3) : nil)
-					.animation(.smooth(duration: 0.5, extraBounce: 0.4), value: playingManager.state == .paused)
+					.animation(
+						.smooth(duration: 0.5, extraBounce: 0.4), value: playingManager.state == .paused
+					)
 					.onTapGesture { playingManager.focusApp() }
 
 					VStack(alignment: .leading, spacing: 0) {

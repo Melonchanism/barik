@@ -137,7 +137,9 @@ private func updateDevices(
 		repeating: 0, count: Int(size) / MemoryLayout<AudioDeviceID>.size)
 	AudioObjectGetPropertyData(systemObject, &AOAddress.allDevices, 0, nil, &size, &deviceIDs)
 
-	manager.devices = deviceIDs.map { AudioDevice(id: $0) }
+	DispatchQueue.main.async {
+		manager.devices = deviceIDs.map { AudioDevice(id: $0) }
+	}
 	return 0
 }
 

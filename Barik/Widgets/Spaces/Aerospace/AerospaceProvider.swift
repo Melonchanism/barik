@@ -103,7 +103,7 @@ class AerospaceSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 	private func fetchFocusedSpace() -> AeroSpace? {
 		guard let data = runAerospaceCommand("list-workspaces", "--focused", "--json")
 		else { return nil }
-		
+
 		let decoder = JSONDecoder()
 		do {
 			return try decoder.decode([AeroSpace].self, from: data).first
@@ -117,7 +117,7 @@ class AerospaceSpacesProvider: SpacesProvider, SwitchableSpacesProvider {
 		guard
 			let data = runAerospaceCommand("list-windows", "--focused", "--json")
 		else { return nil }
-		
+
 		let decoder = JSONDecoder()
 		do {
 			return try decoder.decode([AeroWindow].self, from: data).first
