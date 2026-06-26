@@ -3,10 +3,10 @@ import SwiftUI
 
 struct NowPlayingPopup: View {
 	@ObservedObject var configProvider: ConfigProvider
-	@State private var selectedVariant: MenuBarPopupVariant = .horizontal
+	@State private var selectedVariant: BarPopupVariant = .horizontal
 
 	var body: some View {
-		MenuBarPopupVariantView(
+		BarPopupVariantView(
 			selectedVariant: selectedVariant,
 			onVariantSelected: { variant in
 				selectedVariant = variant
@@ -26,7 +26,7 @@ struct NowPlayingPopup: View {
 	private func loadVariant() {
 		if let variantString = configProvider.config["popup"]?
 			.dictionaryValue?["view-variant"]?.stringValue,
-			let variant = MenuBarPopupVariant(rawValue: variantString)
+			let variant = BarPopupVariant(rawValue: variantString)
 		{
 			selectedVariant = variant
 		} else {
@@ -38,7 +38,7 @@ struct NowPlayingPopup: View {
 	private func updateVariant(newConfig: ConfigData) {
 		if let variantString = newConfig["popup"]?.dictionaryValue?["view-variant"]?
 			.stringValue,
-			let variant = MenuBarPopupVariant(rawValue: variantString)
+			let variant = BarPopupVariant(rawValue: variantString)
 		{
 			selectedVariant = variant
 		}

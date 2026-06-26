@@ -1,24 +1,24 @@
 import SwiftUI
 
-enum MenuBarPopupVariant: String, Equatable {
+enum BarPopupVariant: String, Equatable {
 	case box, vertical, horizontal, settings
 }
 
-struct MenuBarPopupVariantView: View {
+struct BarPopupVariantView: View {
 	private let box: AnyView?
 	private let vertical: AnyView?
 	private let horizontal: AnyView?
 	private let settings: AnyView?
 
-	var selectedVariant: MenuBarPopupVariant
+	var selectedVariant: BarPopupVariant
 	@State private var hovered = false
 	@State private var animationValue = 0.0
 
-	var onVariantSelected: ((MenuBarPopupVariant) -> Void)?
+	var onVariantSelected: ((BarPopupVariant) -> Void)?
 
 	init(
-		selectedVariant: MenuBarPopupVariant,
-		onVariantSelected: ((MenuBarPopupVariant) -> Void)? = nil,
+		selectedVariant: BarPopupVariant,
+		onVariantSelected: ((BarPopupVariant) -> Void)? = nil,
 		@ViewBuilder box: () -> some View = { EmptyView() },
 		@ViewBuilder vertical: () -> some View = { EmptyView() },
 		@ViewBuilder horizontal: () -> some View = { EmptyView() },
@@ -87,7 +87,7 @@ struct MenuBarPopupVariantView: View {
 	}
 
 	@ViewBuilder
-	private func content(for variant: MenuBarPopupVariant) -> some View {
+	private func content(for variant: BarPopupVariant) -> some View {
 		switch variant {
 		case .box:
 			if let view = box { view }
@@ -101,7 +101,7 @@ struct MenuBarPopupVariantView: View {
 	}
 
 	private func variantButton(
-		variant: MenuBarPopupVariant,
+		variant: BarPopupVariant,
 		systemImageName: String
 	) -> some View {
 		Button {

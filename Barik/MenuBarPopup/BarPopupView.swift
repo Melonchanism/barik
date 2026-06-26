@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MenuBarPopupView<Content: View>: View {
+struct BarPopupView<Content: View>: View {
 	let content: Content
 	let isPreview: Bool
 

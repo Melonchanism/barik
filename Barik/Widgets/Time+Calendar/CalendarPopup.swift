@@ -5,10 +5,10 @@ struct CalendarPopup: View {
 	let calendarManager: CalendarManager
 
 	@ObservedObject var configProvider: ConfigProvider
-	@State private var selectedVariant: MenuBarPopupVariant = .box
+	@State private var selectedVariant: BarPopupVariant = .box
 
 	var body: some View {
-		MenuBarPopupVariantView(
+		BarPopupVariantView(
 			selectedVariant: selectedVariant,
 			onVariantSelected: { variant in
 				selectedVariant = variant
@@ -24,7 +24,7 @@ struct CalendarPopup: View {
 		.onAppear {
 			if let variantString = configProvider.config["popup"]?
 				.dictionaryValue?["view-variant"]?.stringValue,
-				let variant = MenuBarPopupVariant(rawValue: variantString)
+				let variant = BarPopupVariant(rawValue: variantString)
 			{
 				selectedVariant = variant
 			} else {
@@ -35,7 +35,7 @@ struct CalendarPopup: View {
 			if let variantString = newConfig["popup"]?.dictionaryValue?[
 				"view-variant"
 			]?.stringValue,
-				let variant = MenuBarPopupVariant(rawValue: variantString)
+				let variant = BarPopupVariant(rawValue: variantString)
 			{
 				selectedVariant = variant
 			}

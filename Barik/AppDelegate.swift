@@ -20,7 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 		}
 
-		MenuBarPopup.setup()
+		BarPopup.setup()
 		setupPanels()
 
 		NotificationCenter.default.addObserver(

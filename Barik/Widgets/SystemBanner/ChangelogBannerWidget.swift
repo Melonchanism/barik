@@ -6,7 +6,7 @@ struct ChangelogBannerWidget: View {
 	var body: some View {
 
 		Button(action: {
-			MenuBarPopup.show(rect: rect, id: "changelog") {
+			BarPopup.show(rect: rect, id: "changelog") {
 				ChangelogPopup()
 			}
 		}) {

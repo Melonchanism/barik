@@ -37,7 +37,7 @@ class HidingPanel: NSPanel, NSWindowDelegate {
 	}
 }
 
-class MenuBarPopup {
+class BarPopup {
 	static var lastContentIdentifier: String? = nil
 
 	static func show<Content: View>(
@@ -82,7 +82,7 @@ class MenuBarPopup {
 				panel.contentView = NSHostingView(
 					rootView:
 						ZStack {
-							MenuBarPopupView {
+							BarPopupView {
 								content()
 							}
 							.position(x: rect.midX)
@@ -102,7 +102,7 @@ class MenuBarPopup {
 			panel.contentView = NSHostingView(
 				rootView:
 					ZStack {
-						MenuBarPopupView {
+						BarPopupView {
 							content()
 						}
 						.position(x: rect.midX)

@@ -33,7 +33,7 @@ struct BarWidget<Content: View>: View {
 				}
 			)
 			.onTapGesture {
-				MenuBarPopup.show(rect: rect, id: self.id, content: { AnyView(self.popup) })
+				BarPopup.show(rect: rect, id: self.id, content: { AnyView(self.popup) })
 			}
 	}
 }
