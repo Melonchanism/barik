@@ -51,7 +51,7 @@ struct AppleMenuWidget: View {
 class Login {
 	static let shared = Login()
 
-	typealias F_SACLockScreenImmediate =  @convention(c) () -> Int32
+	typealias F_SACLockScreenImmediate = @convention(c) () -> Int32
 	typealias F_SACScreenSaverStartNow = @convention(c) (Int32, Int32, Int32) -> Int32
 	typealias F_SACLOStartLogout = @convention(c) (Int32, Int32, Int32, Int32) -> Int32
 	typealias F_SACSwitchToLoginWindow = @convention(c) () -> Int32
