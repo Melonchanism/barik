@@ -63,6 +63,7 @@ class NowPlayingManager: ObservableObject {
 	private var activeProvider: NowPlayingProvider? { providers.first { $0.state != .stopped } }
 
 	private var cancellables: Set<AnyCancellable>
+	private var timer: Timer?
 
 	@Published private(set) var nowPlaying: NowPlayingSong?
 	@Published var position: TimeInterval
@@ -78,13 +79,6 @@ class NowPlayingManager: ObservableObject {
 		)
 		.sink { _ in self.updateNowPlaying() }
 		.store(in: &cancellables)
-
-		Timer.publish(every: 1, on: .main, in: .common)
-			.autoconnect()
-			.sink { timer in
-				if self.activeProvider?.state == .playing { self.position += 1 }
-			}
-			.store(in: &cancellables)
 	}
 
 	/// Updates the now playing song asynchronously.
@@ -94,6 +88,16 @@ class NowPlayingManager: ObservableObject {
 			guard state != .stopped else { return }
 			if nowPlaying != activeProvider?.nowPlaying { nowPlaying = activeProvider?.nowPlaying }
 			position = activeProvider?.position ?? 0
+			
+			if state == .playing {
+				guard timer == nil else { return }
+				self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+					if self.activeProvider?.state == .playing { self.position += 1 }
+				}
+			} else {
+				self.timer?.invalidate()
+				self.timer = nil
+			}
 		}
 	}
 
