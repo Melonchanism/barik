@@ -28,8 +28,8 @@ struct NowPlayingWidget: View {
 				.background(
 					GeometryReader { geo in
 						Color.clear
-							.onChange(of: geo.size.width, initial: true) { _, newWidth in
-								withAnimation(.default) { animatedWidth = newWidth }
+							.onChange(of: song, initial: true) { _, _ in
+								withAnimation(.default) { animatedWidth = geo.size.width }
 							}
 					}
 				)
@@ -57,6 +57,7 @@ struct AlbumArtView: View {
 			Image(nsImage: song.albumArt ?? NSImage())
 				.resizable()
 				.frame(width: 20, height: 20)
+				.animation(.default, value: song.albumArt)
 				.clipShape(RoundedRectangle(cornerRadius: 4))
 				.brightness(playingManager.state == .paused ? -0.3 : 0)
 
