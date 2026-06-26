@@ -10,6 +10,8 @@ import Combine
 
 class EventManager: ObservableObject {
 	static let shared = EventManager()
+	
+	var rng = SystemRandomNumberGenerator()
 
 	var handler: EventHandlerRef?
 	var types = [
@@ -33,8 +35,7 @@ class EventManager: ObservableObject {
 
 	@discardableResult
 	func addListener(for type: EventType, callback: @escaping Listener.Callback) -> UInt64 {
-		var rng = SystemRandomNumberGenerator()
-		var id = rng.next(upperBound: UInt64(32))
+		let id = rng.next(upperBound: UInt64(32))
 		listeners[id] = Listener(id: id, type: type, callback: callback)
 		return id
 	}
