@@ -21,7 +21,9 @@ enum WifiSignalStrength: String {
 }
 
 /// Unified view model for monitoring network and Wi‑Fi status.
-final class NetworkStatusViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+final class NetworkStatusViewModel: NSObject, ObservableObject, CLLocationManagerDelegate,
+	CWEventDelegate
+{
 
 	static var shared = NetworkStatusViewModel()
 
@@ -53,7 +55,8 @@ final class NetworkStatusViewModel: NSObject, ObservableObject, CLLocationManage
 	private let monitor = NWPathMonitor()
 	private let monitorQueue = DispatchQueue(label: "NetworkMonitor")
 
-	private var timer: Timer?
+	private let wifiClient = CWWiFiClient.shared()
+
 	private let locationManager = CLLocationManager()
 
 	override init() {
@@ -72,50 +75,7 @@ final class NetworkStatusViewModel: NSObject, ObservableObject, CLLocationManage
 	// MARK: — NWPathMonitor for overall network status.
 
 	private func startNetworkMonitoring() {
-		monitor.pathUpdateHandler = { [weak self] path in
-			guard let self = self else { return }
-			DispatchQueue.main.async {
-				// Wi‑Fi
-				if path.availableInterfaces.contains(where: { $0.type == .wifi }
-				) {
-					if path.usesInterfaceType(.wifi) {
-						switch path.status {
-						case .satisfied:
-							self.wifiState = .connected
-						case .requiresConnection:
-							self.wifiState = .connecting
-						default:
-							self.wifiState = .connectedWithoutInternet
-						}
-					} else {
-						// If the Wi‑Fi interface is available but not in use – consider it enabled but not connected.
-						self.wifiState = .disconnected
-					}
-				} else {
-					self.wifiState = .notSupported
-				}
-
-				// Ethernet
-				if path.availableInterfaces.contains(where: {
-					$0.type == .wiredEthernet
-				}) {
-					if path.usesInterfaceType(.wiredEthernet) {
-						switch path.status {
-						case .satisfied:
-							self.ethernetState = .connected
-						case .requiresConnection:
-							self.ethernetState = .connecting
-						default:
-							self.ethernetState = .disconnected
-						}
-					} else {
-						self.ethernetState = .disconnected
-					}
-				} else {
-					self.ethernetState = .notSupported
-				}
-			}
-		}
+		monitor.pathUpdateHandler = updateNetworkInfo
 		monitor.start(queue: monitorQueue)
 	}
 
@@ -123,51 +83,95 @@ final class NetworkStatusViewModel: NSObject, ObservableObject, CLLocationManage
 		monitor.cancel()
 	}
 
+	func updateNetworkInfo(_ path: NWPath) {
+		DispatchQueue.main.async {
+			// Wi‑Fi
+			if path.availableInterfaces.contains(where: { $0.type == .wifi }
+			) {
+				if path.usesInterfaceType(.wifi) {
+					switch path.status {
+					case .satisfied:
+						self.wifiState = .connected
+					case .requiresConnection:
+						self.wifiState = .connecting
+					default:
+						self.wifiState = .connectedWithoutInternet
+					}
+				} else {
+					// If the Wi‑Fi interface is available but not in use – consider it enabled but not connected.
+					self.wifiState = .disconnected
+				}
+			} else {
+				self.wifiState = .notSupported
+			}
+
+			// Ethernet
+			if path.availableInterfaces.contains(where: {
+				$0.type == .wiredEthernet
+			}) {
+				if path.usesInterfaceType(.wiredEthernet) {
+					switch path.status {
+					case .satisfied:
+						self.ethernetState = .connected
+					case .requiresConnection:
+						self.ethernetState = .connecting
+					default:
+						self.ethernetState = .disconnected
+					}
+				} else {
+					self.ethernetState = .disconnected
+				}
+			} else {
+				self.ethernetState = .notSupported
+			}
+		}
+	}
+
 	// MARK: — Updating Wi‑Fi information via CoreWLAN.
 
 	private func startWiFiMonitoring() {
-		timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) {
-			[weak self] _ in
-			self?.updateWiFiInfo()
-		}
+		wifiClient.delegate = self
+		try? wifiClient.startMonitoringEvent(with: .linkDidChange)
 		updateWiFiInfo()
 	}
 
 	private func stopWiFiMonitoring() {
-		timer?.invalidate()
-		timer = nil
+		try? wifiClient.stopMonitoringAllEvents()
 	}
 
+	func linkDidChangeForWiFiInterface(withName interfaceName: String) { updateWiFiInfo() }
+
 	private func updateWiFiInfo() {
-		let client = CWWiFiClient.shared()
-		if let interface = client.interface() {
-			self.ssid = interface.ssid() ?? "Not connected"
-			self.rssi = interface.rssiValue()
-			self.noise = interface.noiseMeasurement()
-			if let wlanChannel = interface.wlanChannel() {
-				let band: String
-				switch wlanChannel.channelBand {
-				case .bandUnknown:
-					band = "unknown"
-				case .band2GHz:
-					band = "2GHz"
-				case .band5GHz:
-					band = "5GHz"
-				case .band6GHz:
-					band = "6GHz"
-				@unknown default:
-					band = "unknown"
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+			if let interface = self.wifiClient.interface() {
+				self.ssid = interface.ssid() ?? "Not connected"
+				self.rssi = interface.rssiValue()
+				self.noise = interface.noiseMeasurement()
+				if let wlanChannel = interface.wlanChannel() {
+					let band: String
+					switch wlanChannel.channelBand {
+					case .bandUnknown:
+						band = "unknown"
+					case .band2GHz:
+						band = "2GHz"
+					case .band5GHz:
+						band = "5GHz"
+					case .band6GHz:
+						band = "6GHz"
+					@unknown default:
+						band = "unknown"
+					}
+					self.channel = "\(wlanChannel.channelNumber) (\(band))"
+				} else {
+					self.channel = "N/A"
 				}
-				self.channel = "\(wlanChannel.channelNumber) (\(band))"
 			} else {
+				// Interface not available – Wi‑Fi is off.
+				self.ssid = "No interface"
+				self.rssi = 0
+				self.noise = 0
 				self.channel = "N/A"
 			}
-		} else {
-			// Interface not available – Wi‑Fi is off.
-			self.ssid = "No interface"
-			self.rssi = 0
-			self.noise = 0
-			self.channel = "N/A"
 		}
 	}
 
