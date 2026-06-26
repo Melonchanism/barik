@@ -53,6 +53,9 @@ struct BarView: View {
 		case "default.applemenu":
 			AppleMenuWidget()
 
+		case "default.menubar":
+			MenuBarWidget()
+
 		case "default.spaces":
 			SpacesWidget().environmentObject(config)
 
