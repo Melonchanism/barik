@@ -32,7 +32,7 @@ class AudioDevice: Equatable, Hashable, Identifiable {
 	init(id: AudioObjectID) {
 		self.id = id
 		self.name = getData(of: id, AOAddress.name, nilValue: "" as CFString) as String
-		var channel1 = AOAddress.outputVolume(for: 1)
+		let channel1 = AOAddress.outputVolume(for: 1)
 
 		if getIsSettable(of: id, AOAddress.outputVolume) {
 			self.volumeType = .output
@@ -112,7 +112,7 @@ class AudioManager: ObservableObject {
 			break
 		case .channel:
 			for i in 1...outputDevice.outChannelCount {
-				var address = AOAddress.outputVolume(for: i)
+				let address = AOAddress.outputVolume(for: i)
 				setData(of: outputDevice.id, address, value: value)
 			}
 			break
